@@ -1,4 +1,4 @@
-class Sprite {
+class EB_Sprite {
     constructor({
       position,
       imageSrc,
@@ -20,7 +20,7 @@ class Sprite {
     }
   
     draw() {
-        screen.context.drawImage(
+        game.context.drawImage(
         this.image,
         this.framesCurrent * (this.image.width / this.framesMax),
         0,

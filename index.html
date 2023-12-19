@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<style>
-    * {
-        box-sizing: border-box;
-    }
-    canvas {
-        border: 1px solid #d3d3d3;
-    }
-</style>
+	<title>Everything Bagel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" type="EB_core/assets/img/bagel.png" href="EB_core/assets/img/bagel.png">
+    <link rel="stylesheet" href="EB_core/assets/css/styles.css">
 </head>
 
 <body onload="init()">
-    <script src="assets/js/sprite.js"></script>
-    <script src="assets/js/app.js"></script>
+
+    <!-- Core Scripts -->
+    <script src="EB_core/classes/sprite.js"></script>
+    <script src="EB_core/classes/audio.js"></script>
+
+
+    <!-- Public Scripts -->
+    <script src="public/scripts/config.js"></script>
+    <script src="public/scripts/game.js"></script>
+    <script src="public/scripts/update.js"></script>
+    <script src="public/scripts/run.js"></script>
+
 </body>
