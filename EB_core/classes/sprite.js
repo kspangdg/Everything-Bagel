@@ -1,12 +1,14 @@
 class EB_Sprite {
     constructor({
       position,
+      angle = 0,
       imageSrc,
       scale = 1,
       framesMax = 1,
       offset = { x: 0, y: 0 }
     }) {
       this.position = position
+      this.angle = angle
       this.width = 50
       this.height = 150
       this.image = new Image()
@@ -20,20 +22,32 @@ class EB_Sprite {
     }
   
     draw() {
-        game.context.drawImage(
+      let x = this.position.x - this.offset.x;
+      let y = this.position.y - this.offset.y;
+      if (this.angle) {
+        game.context.save();
+        game.context.translate((this.image.width / this.framesMax) / 2, this.image.height / 2);
+        game.context.rotate(this.angle);
+        x = (this.position.x * -1) - ((this.image.width / this.framesMax) / 2);
+        y = (this.position.y * -1) - (this.image.height / 2);
+      }
+      game.context.drawImage(
         this.image,
         this.framesCurrent * (this.image.width / this.framesMax),
         0,
         this.image.width / this.framesMax,
         this.image.height,
-        this.position.x - this.offset.x,
-        this.position.y - this.offset.y,
+        x,
+        y,
         (this.image.width / this.framesMax) * this.scale,
         this.image.height * this.scale
       )
+      if (this.angle) {
+        game.context.restore();
+      }
     }
   
-    animateFrames() {
+    animate() {
       this.framesElapsed++
   
       if (this.framesElapsed % this.framesHold === 0) {
@@ -47,6 +61,6 @@ class EB_Sprite {
   
     update() {
       this.draw()
-      this.animateFrames()
+      this.animate()
     }
   }

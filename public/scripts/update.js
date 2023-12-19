@@ -1,23 +1,17 @@
-
 function update() {
     game.clear();
     background.update();
     player.update();
+    
+    player.velocity.x = 0
 
-    window.addEventListener('keydown', (event) => {
-        switch (event.key) {
-          case 'd':
-            player.position.x += 0.1
-            break
-        case 'a':
-            player.position.x -= 0.1
-            break
-        case 'w':
-            player.position.y -= 0.1
-            break
-        case 's':
-            player.position.y += 0.1
-            break
-        }
-    });
+    if (keys.ArrowLeft.pressed && player.lastKey === 'ArrowLeft') {
+        player.velocity.x = -5;
+        player.switchSprite('run_left');
+    } else if (keys.ArrowRight.pressed && player.lastKey === 'ArrowRight') {
+        player.velocity.x = 5;
+        player.switchSprite('run_right');
+    } else {
+        player.switchSprite('idle');
+    }
 }
