@@ -26,6 +26,7 @@ class EB_Player extends EB_Sprite {
       this.framesHold = 5
       this.sprites = sprites
       this.dead = false
+      this.flip = false
   
       for (const sprite in this.sprites) {
         sprites[sprite].image = new Image()
@@ -41,18 +42,25 @@ class EB_Player extends EB_Sprite {
       this.position.y += this.velocity.y
   
     // gravity function
-      if (this.position.y + this.height + this.velocity.y >= game.canvas.height - 96) {
-        this.velocity.y = 0
-        this.position.y = 330
-      } else this.velocity.y += gravity
+    //   if (this.position.y + this.height + this.velocity.y >= game.canvas.height - 96) {
+    //     this.velocity.y = 0
+    //     this.position.y = 330
+    //   } else this.velocity.y += gravity
     }
 
     switchSprite(sprite) {
       switch (sprite) {
-        case 'idle':
-          if (this.image !== this.sprites.idle.image) {
-            this.image = this.sprites.idle.image
-            this.framesMax = this.sprites.idle.framesMax
+        case 'idle_right':
+          if (this.image !== this.sprites.idle_right.image) {
+            this.image = this.sprites.idle_right.image
+            this.framesMax = this.sprites.idle_right.framesMax
+            this.framesCurrent = 0
+          }
+          break
+        case 'idle_left':
+          if (this.image !== this.sprites.idle_left.image) {
+            this.image = this.sprites.idle_left.image
+            this.framesMax = this.sprites.idle_left.framesMax
             this.framesCurrent = 0
           }
           break

@@ -2,11 +2,11 @@ window.addEventListener('keydown', (event) => {
     switch (event.key) {
         case 'ArrowRight':
             keys.ArrowRight.pressed = true;
-            player.lastKey = 'ArrowRight';
+            player.flip = false;
             break
         case 'ArrowLeft':
             keys.ArrowLeft.pressed = true;
-            player.lastKey = 'ArrowLeft';
+            player.flip = true;
             break
         case 'ArrowUp':
             player.velocity.y = -20;

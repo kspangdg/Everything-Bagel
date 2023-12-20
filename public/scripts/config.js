@@ -12,3 +12,12 @@ const game = {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }
+
+const keys = {
+	ArrowRight: {
+		pressed: false
+	},
+	ArrowLeft: {
+		pressed: false
+	}
+}

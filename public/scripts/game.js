@@ -4,32 +4,33 @@ const background = new EB_Sprite({
 		y: 0
 	},
 	angle: 0,
-	imageSrc: 'public/assets/images/background.png'
+	imageSrc: 'public/assets/images/background.png',
+	background: true
 });
 
 const player = new EB_Player({
 	position: {
-		x: 200,
-		y: 0
+		x: 300,
+		y: 180
 	},
 	velocity: {
 		x: 0,
 		y: 0
 	},
-	offset: {
-		x: 0,
-		y: 0
-	},
-	imageSrc: 'public/assets/images/idle.png',
+	imageSrc: 'public/assets/images/idle_right.png',
 	framesMax: 8,
 	scale: 2.5,
 	offset: {
-		x: 0,
+		x: 220,
 		y: 0
 	},
 	sprites: {
-		idle: {
-			imageSrc: 'public/assets/images/Idle.png',
+		idle_right: {
+			imageSrc: 'public/assets/images/Idle_right.png',
+			framesMax: 8
+		},
+		idle_left: {
+			imageSrc: 'public/assets/images/Idle_left.png',
 			framesMax: 8
 		},
 		run_left: {
@@ -42,14 +43,5 @@ const player = new EB_Player({
 		}
 	}
 })
-
-const keys = {
-	ArrowRight: {
-		pressed: false
-	},
-	ArrowLeft: {
-		pressed: false
-	}
-}
 
 const gravity = 0.7;
