@@ -6,7 +6,7 @@ class EB_Player extends EB_Sprite {
       scale = 1,
       framesMax = 1,
       offset = { x: 0, y: 0 },
-      sprites,
+      sprites
     }) {
       super({
         position,
@@ -19,7 +19,6 @@ class EB_Player extends EB_Sprite {
       this.velocity = velocity
       this.width = 50
       this.height = 150
-      this.lastKey
       this.health = 100
       this.framesCurrent = 0
       this.framesElapsed = 0
@@ -27,6 +26,8 @@ class EB_Player extends EB_Sprite {
       this.sprites = sprites
       this.dead = false
       this.flip = false
+      this.jump = false
+      this.fall = false
   
       for (const sprite in this.sprites) {
         sprites[sprite].image = new Image()
@@ -40,12 +41,6 @@ class EB_Player extends EB_Sprite {
    
       this.position.x += this.velocity.x
       this.position.y += this.velocity.y
-  
-    // gravity function
-    //   if (this.position.y + this.height + this.velocity.y >= game.canvas.height - 96) {
-    //     this.velocity.y = 0
-    //     this.position.y = 330
-    //   } else this.velocity.y += gravity
     }
 
     switchSprite(sprite) {
@@ -75,6 +70,34 @@ class EB_Player extends EB_Sprite {
             if (this.image !== this.sprites.run_right.image) {
                 this.image = this.sprites.run_right.image
                 this.framesMax = this.sprites.run_right.framesMax
+                this.framesCurrent = 0
+            }
+            break
+        case 'Jump_left':
+            if (this.image !== this.sprites.Jump_left.image) {
+                this.image = this.sprites.Jump_left.image
+                this.framesMax = this.sprites.Jump_left.framesMax
+                this.framesCurrent = 0
+            }
+            break
+        case 'Jump_right':
+            if (this.image !== this.sprites.Jump_right.image) {
+                this.image = this.sprites.Jump_right.image
+                this.framesMax = this.sprites.Jump_right.framesMax
+                this.framesCurrent = 0
+            }
+            break
+        case 'Fall_left':
+            if (this.image !== this.sprites.Fall_left.image) {
+                this.image = this.sprites.Fall_left.image
+                this.framesMax = this.sprites.Fall_left.framesMax
+                this.framesCurrent = 0
+            }
+            break
+        case 'Fall_right':
+            if (this.image !== this.sprites.Fall_right.image) {
+                this.image = this.sprites.Fall_right.image
+                this.framesMax = this.sprites.Fall_right.framesMax
                 this.framesCurrent = 0
             }
             break
