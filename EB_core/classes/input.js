@@ -5,7 +5,7 @@
  * @param {Boolean} mouse - Track mouse position and click
  */
 
-class EB_Controls {
+class EB_Input {
     constructor(keys, mouse) {
         this.keys = {};
         this.mouse = {x: 0, y: 0, clicked: false};

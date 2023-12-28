@@ -45,6 +45,16 @@ class EB_Sprite {
       if (this.angle) {
         game.context.restore();
       }
+      if (game.debug) {
+        game.context.beginPath();
+        game.context.rect(
+          x,
+          y,
+          (this.image.width / this.framesMax) * this.scale, 
+          this.image.height * this.scale
+        );
+        game.context.stroke();
+      }
     }
   
     animate() {

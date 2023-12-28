@@ -12,7 +12,7 @@ function update() {
     player.velocity.x = 0
 
     // Run
-    if (controls.keys.ArrowLeft.pressed) {
+    if (input.keys.ArrowLeft.pressed) {
         if (player.position.x >= 0 + (player.width / player.framesMax) + 350) {
             player.velocity.x = -8;
         } else { 
@@ -24,7 +24,7 @@ function update() {
         // flip
         player.flip = true;
         player.switchSprite('run_left');
-    } else if (controls.keys.ArrowRight.pressed) {
+    } else if (input.keys.ArrowRight.pressed) {
         if (player.position.x <= game.canvas.width - (player.width / player.framesMax) - 350) {
             player.velocity.x = 8;
         } else {
@@ -41,14 +41,14 @@ function update() {
     }
 
     // Jump
-    if (controls.keys.ArrowUp.pressed && !player.jump && !player.fall) {
+    if (input.keys.ArrowUp.pressed && !player.jump && !player.fall) {
         player.jump = true;
     }
-    if (player.jump && player.position.y < -20) {
+    if (player.jump && player.position.y < 25) {
         player.jump = false;
         player.fall = true;
     }
-    if (player.fall && player.position.y >= 180) {
+    if (player.fall && player.position.y >= 240) {
         player.fall = false;
     }
     if (player.jump) {
@@ -78,8 +78,4 @@ function update() {
     } else {
         enemy.switchSprite('idle' + (enemy.flip ? '_left' : '_right'));
     }
-
-
-    
-
 }

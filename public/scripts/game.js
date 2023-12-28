@@ -38,7 +38,7 @@ const banner = new EB_Sprite({
 const player = new EB_Player({
 	position: {
 		x: 350,
-		y: 180
+		y: 240
 	},
 	velocity: {
 		x: 0,
@@ -46,9 +46,9 @@ const player = new EB_Player({
 	},
 	imageSrc: 'public/assets/images/idle_right.png',
 	framesMax: 8,
-	scale: 2.5,
+	scale: 2,
 	offset: {
-		x: 220,
+		x: 0,
 		y: 0
 	},
 	sprites: {
@@ -90,7 +90,7 @@ const player = new EB_Player({
 const enemy = new EB_Player({
 	position: {
 		x: game.width,
-		y: 180
+		y: 240
 	},
 	velocity: {
 		x: 0,
@@ -98,9 +98,9 @@ const enemy = new EB_Player({
 	},
 	imageSrc: 'public/assets/images/idle_right.png',
 	framesMax: 8,
-	scale: 2.5,
+	scale: 2,
 	offset: {
-		x: 220,
+		x: 0,
 		y: 0
 	},
 	sprites: {
@@ -139,7 +139,7 @@ const enemy = new EB_Player({
 	}
 })
 
-const controls = new EB_Controls([ "ArrowLeft", "ArrowRight", "ArrowUp"], false);
+const input = new EB_Input([ "ArrowLeft", "ArrowRight", "ArrowUp"], false);
 
 // Start the game
 function init() {
