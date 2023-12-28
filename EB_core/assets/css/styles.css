@@ -1,6 +1,14 @@
 * {
     box-sizing: border-box;
 }
+body {
+    background-color: #394046;
+}
 canvas {
-    border: 1px solid #d3d3d3;
+    border: 2px solid #d5d9dd;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2rem;
+    display: block;
+    background-color: #000000;
 }

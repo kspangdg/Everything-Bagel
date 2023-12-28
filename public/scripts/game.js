@@ -1,16 +1,43 @@
-const background = new EB_Sprite({
+// Config Canvas
+const game = new EB_Config(document.createElement("canvas"), 1024, 576, 20);
+
+const background = new EB_Background({
 	position: {
 		x: 0,
 		y: 0
 	},
-	angle: 0,
 	imageSrc: 'public/assets/images/background.png',
-	background: true
+	loop: true,
 });
+const midground = new EB_Background({
+	position: {
+		x: 0,
+		y: 0
+	},
+	imageSrc: 'public/assets/images/midground.png',
+	loop: true,
+});
+const forground = new EB_Background({
+	position: {
+		x: 0,
+		y: 0
+	},
+	imageSrc: 'public/assets/images/forground.png',
+	loop: true,
+});
+
+const banner = new EB_Sprite({
+	position: {
+		x: (game.width / 2) - 300,
+		y: 24
+	},
+	imageSrc: 'public/assets/images/banner.png',
+	scale: 2
+})
 
 const player = new EB_Player({
 	position: {
-		x: 300,
+		x: 350,
 		y: 180
 	},
 	velocity: {
@@ -44,4 +71,11 @@ const player = new EB_Player({
 	}
 })
 
+const controls = new EB_Controls([ "ArrowLeft", "ArrowRight"], false)	
+
 const gravity = 0.7;
+
+// Start the game
+function init() {
+    game.start();
+}

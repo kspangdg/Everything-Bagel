@@ -19,7 +19,6 @@ class EB_Sprite {
       this.framesElapsed = 0
       this.framesHold = 5
       this.offset = offset
-      this.flip = false
     }
   
     draw() {
