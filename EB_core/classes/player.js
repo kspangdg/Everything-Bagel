@@ -37,6 +37,7 @@ class EB_Player extends EB_Sprite {
       this.dead = false
       this.flip = false
       this.jump = false
+      this.attack = false
       this.fall = false
   
       for (const sprite in this.sprites) {
@@ -108,6 +109,20 @@ class EB_Player extends EB_Sprite {
             if (this.image !== this.sprites.Fall_right.image) {
                 this.image = this.sprites.Fall_right.image
                 this.framesMax = this.sprites.Fall_right.framesMax
+                this.framesCurrent = 0
+            }
+            break
+        case 'Attack_left':
+            if (this.image !== this.sprites.Attack_left.image) {
+                this.image = this.sprites.Attack_left.image
+                this.framesMax = this.sprites.Attack_left.framesMax
+                this.framesCurrent = 0
+            }
+            break
+        case 'Attack_right':
+            if (this.image !== this.sprites.Attack_right.image) {
+                this.image = this.sprites.Attack_right.image
+                this.framesMax = this.sprites.Attack_right.framesMax
                 this.framesCurrent = 0
             }
             break

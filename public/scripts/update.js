@@ -10,9 +10,12 @@ function update() {
 
     // Player
     player.velocity.x = 0
+    if (!input.keys.ArrowLeft.pressed && !input.keys.ArrowRight.pressed && !player.jump && !player.fall && !player.attack) {
+        player.switchSprite('idle' + (player.flip ? '_left' : '_right'));
+    }
 
     // Run
-    if (input.keys.ArrowLeft.pressed) {
+    if (input.keys.ArrowLeft.pressed && !player.attack) {
         if (player.position.x >= 0 + (player.width / player.framesMax) + 350) {
             player.velocity.x = -8;
         } else { 
@@ -24,7 +27,7 @@ function update() {
         // flip
         player.flip = true;
         player.switchSprite('run_left');
-    } else if (input.keys.ArrowRight.pressed) {
+    } else if (input.keys.ArrowRight.pressed && !player.attack) {
         if (player.position.x <= game.canvas.width - (player.width / player.framesMax) - 350) {
             player.velocity.x = 8;
         } else {
@@ -36,12 +39,10 @@ function update() {
         // flip
         player.flip = false;
         player.switchSprite('run_right');
-    } else {
-        player.switchSprite('idle' + (player.flip ? '_left' : '_right'));
     }
 
     // Jump
-    if (input.keys.ArrowUp.pressed && !player.jump && !player.fall) {
+    if (input.keys.ArrowUp.pressed && !player.jump && !player.fall && !player.attack) {
         player.jump = true;
     }
     if (player.jump && player.position.y < 25) {
@@ -61,6 +62,19 @@ function update() {
         player.velocity.y = 0;
     }
 
+    if (input.keys.Space.pressed && !player.jump && !player.fall) {
+        player.attack = true;
+        player.framesElapsed = 0;
+    }
+    if (player.attack) {
+        //player.velocity.x = 0;
+        player.switchSprite('Attack' + (player.flip ? '_left' : '_right'));
+        if (player.framesElapsed == 30) {
+            player.attack = false;
+        }
+    }
+
+
     // Enemy
     enemy.velocity.x = 0
 
@@ -76,6 +90,6 @@ function update() {
         enemy.flip = false;
         enemy.switchSprite('run_right');
     } else {
-        enemy.switchSprite('idle' + (enemy.flip ? '_left' : '_right'));
+        enemy.switchSprite('Attack' + (enemy.flip ? '_left' : '_right'))
     }
 }

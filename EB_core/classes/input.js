@@ -13,13 +13,14 @@ class EB_Input {
         // loop through keys array and add to keys object
         for (const key in keys) {
             this.keys[keys[key]] = { pressed: false };
-            
         }
         window.addEventListener('keydown', (event) => {
+            let eventKey = event.key;
+            if (eventKey == " ") eventKey = "Space";
             // loop through keys object
             for (const key in this.keys) {
                 // if key is pressed
-                if (event.key === key) {
+                if (eventKey === key) {
                     // set pressed to true
                     this.keys[key].pressed = true;
                 }
@@ -27,10 +28,12 @@ class EB_Input {
 
         })
         window.addEventListener('keyup', (event) => {
+            let eventKey = event.key;
+            if (eventKey == " ") eventKey = "Space";
             // loop through keys object
             for (const key in this.keys) {
                 // if key is pressed
-                if (event.key === key) {
+                if (eventKey === key) {
                     // set pressed to false
                     this.keys[key].pressed = false;
                 }

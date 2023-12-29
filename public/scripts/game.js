@@ -94,6 +94,14 @@ const player = new EB_Player({
 		Fall_right: {
 			imageSrc: 'public/assets/images/Fall_right.png',
 			framesMax: 2
+		},
+		Attack_left: {
+			imageSrc: 'public/assets/images/Attack_left.png',
+			framesMax: 6
+		},
+		Attack_right: {
+			imageSrc: 'public/assets/images/Attack_right.png',
+			framesMax: 6
 		}
 	}
 })
@@ -153,11 +161,19 @@ const enemy = new EB_Player({
 		Fall_right: {
 			imageSrc: 'public/assets/images/Fall_right.png',
 			framesMax: 2
+		},
+		Attack_left: {
+			imageSrc: 'public/assets/images/Attack_left.png',
+			framesMax: 6
+		},
+		Attack_right: {
+			imageSrc: 'public/assets/images/Attack_right.png',
+			framesMax: 6
 		}
 	}
 })
 
-const input = new EB_Input([ "ArrowLeft", "ArrowRight", "ArrowUp"], false);
+const input = new EB_Input([ "ArrowLeft", "ArrowRight", "ArrowUp", "Space"], false);
 
 // Start the game
 function init() {

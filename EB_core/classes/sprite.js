@@ -80,7 +80,7 @@ class EB_Sprite {
           this.collisionBox.width, 
           this.collisionBox.height
         );
-        game.context.stroke();
+        if (game.debug) game.context.stroke();
 
       }
     }
