@@ -1,24 +1,34 @@
 class EB_Player extends EB_Sprite {
     constructor({
       position,
-      velocity,
+      width,
+      height,
+      velocity = {x: 0, y: 0},
       imageSrc,
       scale = 1,
       framesMax = 1,
       offset = { x: 0, y: 0 },
+      collisionBox = {
+        offset: {x: 0, y: 0},
+        width: 0,
+        height : 0
+      },
       sprites
     }) {
       super({
         position,
+        width,
+        height,
         imageSrc,
         scale,
         framesMax,
-        offset
+        offset,
+        collisionBox
       })
   
       this.velocity = velocity
-      this.width = 50
-      this.height = 150
+      this.width = width
+      this.height = height
       this.health = 100
       this.framesCurrent = 0
       this.framesElapsed = 0

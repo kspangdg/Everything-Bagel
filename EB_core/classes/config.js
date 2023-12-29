@@ -14,6 +14,9 @@ class EB_Config {
         this.height = height;
         this.fps = fps;
         this.context = this.canvas.getContext("2d");
+        this.level = 1,
+        this.mode = 1, // 1 = easy, 2 = medium, 3 = hard
+        this.clock = 0,
         this.debug;
     }
 
@@ -22,6 +25,7 @@ class EB_Config {
         this.canvas.height = this.height;
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(update, this.fps);
+        setInterval(clock, 1000);
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);        
     }
     clear() {

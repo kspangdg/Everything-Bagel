@@ -1,5 +1,7 @@
 // Config Canvas
 const game = new EB_Config(document.createElement("canvas"), 1024, 576, 20);
+// Update clock
+function clock() { game.clock++ }
 
 const background = new EB_Background({
 	position: {
@@ -31,6 +33,8 @@ const banner = new EB_Sprite({
 		x: (game.width / 2) - 300,
 		y: 24
 	},
+	width: 50,
+	height: 150,
 	imageSrc: 'public/assets/images/banner.png',
 	scale: 2
 })
@@ -40,6 +44,8 @@ const player = new EB_Player({
 		x: 350,
 		y: 240
 	},
+	width: 50,
+	height: 150,
 	velocity: {
 		x: 0,
 		y: 0
@@ -50,6 +56,11 @@ const player = new EB_Player({
 	offset: {
 		x: 0,
 		y: 0
+	},
+	collisionBox: {
+		offset: {x: 150, y: 150},
+		width: 70,
+		height: 90
 	},
 	sprites: {
 		idle_right: {
@@ -92,6 +103,8 @@ const enemy = new EB_Player({
 		x: game.width,
 		y: 240
 	},
+	width: 50,
+	height: 150,
 	velocity: {
 		x: 0,
 		y: 0
@@ -102,6 +115,11 @@ const enemy = new EB_Player({
 	offset: {
 		x: 0,
 		y: 0
+	},
+	collisionBox: {
+		offset: {x: 150, y: 150},
+		width: 70,
+		height: 90
 	},
 	sprites: {
 		idle_right: {

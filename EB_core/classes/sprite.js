@@ -2,23 +2,32 @@ class EB_Sprite {
     constructor({
       position,
       angle = 0,
+      width,
+      height,
       imageSrc,
       scale = 1,
       framesMax = 1,
-      offset = { x: 0, y: 0 }
+      offset = { x: 0, y: 0 },
+      collisionBox = {
+        active: false,
+        offset: {x: 0, y: 0},
+        width: 0,
+        height : 0
+      }
     }) {
-      this.position = position
-      this.angle = angle
-      this.width = 50
-      this.height = 150
-      this.image = new Image()
-      this.image.src = imageSrc
-      this.scale = scale
-      this.framesMax = framesMax
-      this.framesCurrent = 0
-      this.framesElapsed = 0
-      this.framesHold = 5
-      this.offset = offset
+      this.position = position;
+      this.angle = angle;
+      this.width = width;
+      this.height = height;
+      this.scale = scale;
+      this.image = new Image();
+      this.image.src = imageSrc;
+      this.framesMax = framesMax;
+      this.framesCurrent = 0;
+      this.framesElapsed = 0;
+      this.framesHold = 5;
+      this.offset = offset;
+      this.collisionBox = collisionBox;
     }
   
     draw() {
@@ -54,6 +63,25 @@ class EB_Sprite {
           this.image.height * this.scale
         );
         game.context.stroke();
+      }
+      if (this.collisionBox.width > 0 || this.collisionBox.height > 0) {
+        this.collisionBox.active = true;
+        // Get outline
+        this.collisionBox['left'] = x + this.collisionBox.offset.x;
+        this.collisionBox['top'] = y + this.collisionBox.offset.y;
+        this.collisionBox['right'] = (x + this.collisionBox.offset.x) + this.collisionBox.width;
+        this.collisionBox['bottom'] = (y + this.collisionBox.offset.y) + this.collisionBox.height;
+
+        // Draw rectangle
+        game.context.beginPath();
+        game.context.rect(
+          x + this.collisionBox.offset.x,
+          y + this.collisionBox.offset.y,
+          this.collisionBox.width, 
+          this.collisionBox.height
+        );
+        game.context.stroke();
+
       }
     }
   

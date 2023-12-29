@@ -48,7 +48,7 @@ function update() {
         player.jump = false;
         player.fall = true;
     }
-    if (player.fall && player.position.y >= 240) {
+    if (player.fall && player.collisionBox.bottom >= 465) {
         player.fall = false;
     }
     if (player.jump) {
@@ -65,12 +65,12 @@ function update() {
     enemy.velocity.x = 0
 
     // Run
-    if (player.position.x + 75 < enemy.position.x) {
+    if (player.collisionBox.right < enemy.collisionBox.left) {
         enemy.velocity.x = -6;
         // flip
         enemy.flip = true;
         enemy.switchSprite('run_left');
-    } else if (player.position.x - 75 > enemy.position.x) {
+    } else if (player.collisionBox.left > enemy.collisionBox.right) {
         enemy.velocity.x = 6;
         // flip
         enemy.flip = false;
