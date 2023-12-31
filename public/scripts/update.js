@@ -15,7 +15,7 @@ function update() {
     }
 
     // Run
-    if (input.keys.ArrowLeft.pressed && !player.attack) {
+    if (input.keys.ArrowLeft.pressed && !player.attack && !player.dead) {
         if (player.position.x >= 0 + (player.width / player.framesMax) + 350) {
             player.velocity.x = -8;
         } else { 
@@ -27,7 +27,7 @@ function update() {
         // flip
         player.flip = true;
         player.switchSprite('run_left');
-    } else if (input.keys.ArrowRight.pressed && !player.attack) {
+    } else if (input.keys.ArrowRight.pressed && !player.attack && !player.dead) {
         if (player.position.x <= game.canvas.width - (player.width / player.framesMax) - 350) {
             player.velocity.x = 8;
         } else {
@@ -42,7 +42,7 @@ function update() {
     }
 
     // Jump
-    if (input.keys.ArrowUp.pressed && !player.jump && !player.fall && !player.attack) {
+    if (input.keys.ArrowUp.pressed && !player.jump && !player.fall && !player.attack && !player.dead) {
         player.jump = true;
     }
     if (player.jump && player.position.y < 25) {
@@ -62,15 +62,22 @@ function update() {
         player.velocity.y = 0;
     }
 
-    if (input.keys.Space.pressed && !player.jump && !player.fall) {
+    if (input.keys.Space.pressed && !player.jump && !player.fall && !player.dead) {
         player.attack = true;
         player.framesElapsed = 0;
     }
     if (player.attack) {
         //player.velocity.x = 0;
         player.switchSprite('Attack' + (player.flip ? '_left' : '_right'));
+        if (player.framesElapsed == 10) {
+            hit.play();
+            player.hitBox.active = true;
+        }
+
         if (player.framesElapsed == 30) {
             player.attack = false;
+            player.hitBox.active = false;
+            hit.pause(true);
         }
     }
 
@@ -79,7 +86,7 @@ function update() {
     enemy.velocity.x = 0
 
     // Run
-    if (game.clock > 3) {
+    if (game.clock > 3 && !enemy.dead && !player.dead) {
         if (player.collisionBox.right < enemy.collisionBox.left) {
             enemy.velocity.x = -6;
             // flip
@@ -95,7 +102,22 @@ function update() {
                 enemy.switchSprite('idle' + (enemy.flip ? '_left' : '_right'))
             } else {
                 enemy.switchSprite('Attack' + (enemy.flip ? '_left' : '_right'));
+                    if (player.health <= 0) {
+                        player.dead = true;
+                    } else {
+                        player.health -= 1;
+                    }
             }
+        }
+    } else {
+        enemy.switchSprite('idle' + (enemy.flip ? '_left' : '_right'))
+    }
+
+    if (player.hitBox.active && player.hitBox.right > enemy.collisionBox.left && player.hitBox.left < enemy.collisionBox.right) {
+        if (enemy.health <= 0) {
+            enemy.dead = true;
+        } else {
+            enemy.health -= 1;
         }
     }
 }

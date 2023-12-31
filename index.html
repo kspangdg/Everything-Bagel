@@ -7,11 +7,15 @@
     <link rel="stylesheet" href="EB_core/assets/css/styles.css">
 </head>
 
-<body onload="init()">
+<body>
 
     <!-- debug -->
     <button onclick="debug()">Debug</button>
     <script>function debug() { game.debug = true; }</script>
+
+    <!-- Audio On -->
+    <button id="play_btn" onclick="init()">Play</button>
+
 
     <!-- Core Scripts -->
     <script src="EB_core/classes/config.js"></script>

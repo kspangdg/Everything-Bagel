@@ -9,6 +9,13 @@ class EB_Player extends EB_Sprite {
       framesMax = 1,
       offset = { x: 0, y: 0 },
       collisionBox = {
+        active: false,
+        offset: {x: 0, y: 0},
+        width: 0,
+        height : 0
+      },
+      hitBox = {
+        active: false,
         offset: {x: 0, y: 0},
         width: 0,
         height : 0
@@ -27,6 +34,7 @@ class EB_Player extends EB_Sprite {
       })
   
       this.velocity = velocity
+      this.hitBox = hitBox
       this.width = width
       this.height = height
       this.health = 100
@@ -48,6 +56,42 @@ class EB_Player extends EB_Sprite {
   
     update() {
       this.draw()
+      let x = this.position.x - this.offset.x + this.hitBox.offset.x;
+      let y = this.position.y - this.offset.y + this.hitBox.offset.y;
+
+      // Hit box
+      if ((this.hitBox.width > 0 || this.hitBox.height > 0) && this.hitBox.active) {
+        if (!this.flip) {
+          x = (this.position.x - this.offset.x) + (this.image.width / this.framesMax  * this.scale) - this.hitBox.offset.x - this.hitBox.width;
+        }
+        // Get outline
+        this.hitBox['left'] = x;
+        this.hitBox['top'] = y;
+        this.hitBox['right'] = x + this.hitBox.width;
+        this.hitBox['bottom'] = y + this.hitBox.height;
+
+
+        // Draw rectangle
+        game.context.beginPath();
+        game.context.rect( x, y, this.hitBox.width, this.hitBox.height);
+        if (game.debug) game.context.stroke();
+
+      }
+      // fill
+      game.context.beginPath();
+      game.context.rect( this.collisionBox.left, this.collisionBox.top - 30, this.collisionBox.width / 100 * this.health, 5);
+      game.context.fillStyle = "red";
+      game.context.fill();
+
+      // health bar
+      game.context.beginPath();
+      game.context.rect(this.collisionBox.left, this.collisionBox.top - 30, this.collisionBox.width, 5);
+      game.context.stroke();
+
+
+
+
+
       if (!this.dead) this.animate()
    
       this.position.x += this.velocity.x

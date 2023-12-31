@@ -3,6 +3,12 @@ const game = new EB_Config(document.createElement("canvas"), 1024, 576, 20);
 // Update clock
 function clock() { game.clock++ }
 
+// Music
+const music = new EB_Audio('public/assets/audio/music.mp3', 0.2, true);
+
+// Sounds
+const hit = new EB_Audio('public/assets/audio/hit.wav');
+
 const background = new EB_Background({
 	position: {
 		x: 0,
@@ -58,8 +64,13 @@ const player = new EB_Player({
 		y: 0
 	},
 	collisionBox: {
-		offset: {x: 150, y: 150},
+		offset: {x: 160, y: 150},
 		width: 70,
+		height: 90
+	},
+	hitBox: {
+		offset: {x: 50, y: 150},
+		width: 120,
 		height: 90
 	},
 	sprites: {
@@ -177,5 +188,7 @@ const input = new EB_Input([ "ArrowLeft", "ArrowRight", "ArrowUp", "Space"], fal
 
 // Start the game
 function init() {
-    game.start();
+	document.getElementById('play_btn').remove();
+	game.start();
+	music.play();
 }
