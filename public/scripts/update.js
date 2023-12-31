@@ -79,17 +79,23 @@ function update() {
     enemy.velocity.x = 0
 
     // Run
-    if (player.collisionBox.right < enemy.collisionBox.left) {
-        enemy.velocity.x = -6;
-        // flip
-        enemy.flip = true;
-        enemy.switchSprite('run_left');
-    } else if (player.collisionBox.left > enemy.collisionBox.right) {
-        enemy.velocity.x = 6;
-        // flip
-        enemy.flip = false;
-        enemy.switchSprite('run_right');
-    } else {
-        enemy.switchSprite('Attack' + (enemy.flip ? '_left' : '_right'))
+    if (game.clock > 3) {
+        if (player.collisionBox.right < enemy.collisionBox.left) {
+            enemy.velocity.x = -6;
+            // flip
+            enemy.flip = true;
+            enemy.switchSprite('run_left');
+        } else if (player.collisionBox.left > enemy.collisionBox.right) {
+            enemy.velocity.x = 6;
+            // flip
+            enemy.flip = false;
+            enemy.switchSprite('run_right');
+        } else {
+            if (player.jump || player.fall) {
+                enemy.switchSprite('idle' + (enemy.flip ? '_left' : '_right'))
+            } else {
+                enemy.switchSprite('Attack' + (enemy.flip ? '_left' : '_right'));
+            }
+        }
     }
 }
