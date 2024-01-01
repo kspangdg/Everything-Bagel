@@ -27,11 +27,11 @@ const midground = new EB_Background({
 });
 const forground = new EB_Background({
 	position: {
-		x: 0,
+		x: -600,
 		y: 0
 	},
 	imageSrc: 'public/assets/images/forground.png',
-	loop: true,
+	loop: false,
 });
 
 const banner = new EB_Sprite({
@@ -48,7 +48,7 @@ const banner = new EB_Sprite({
 const player = new EB_Player({
 	position: {
 		x: 350,
-		y: 240
+		y: 295
 	},
 	width: 50,
 	height: 150,
@@ -58,24 +58,24 @@ const player = new EB_Player({
 	},
 	imageSrc: 'public/assets/images/idle_right.png',
 	framesMax: 8,
-	scale: 2,
+	scale: 1,
 	offset: {
 		x: 0,
 		y: 0
 	},
 	collisionBox: {
-		offset: {x: 160, y: 150},
-		width: 70,
-		height: 90
+		offset: {x: 140, y: 125},
+		width: 80,
+		height: 100
 	},
 	hitBox: {
-		offset: {x: 50, y: 150},
+		offset: {x: 15, y: 130},
 		width: 120,
 		height: 90
 	},
 	sprites: {
 		idle_right: {
-			imageSrc: 'public/assets/images/Idle_right.png',
+			imageSrc: 'public/assets/images/idle_right.png',
 			framesMax: 8
 		},
 		idle_left: {
@@ -83,11 +83,11 @@ const player = new EB_Player({
 			framesMax: 8
 		},
 		run_left: {
-			imageSrc: 'public/assets/images/RunLeft.png',
+			imageSrc: 'public/assets/images/run_left.png',
 			framesMax: 8
 		},
 		run_right: {
-			imageSrc: 'public/assets/images/RunRight.png',
+			imageSrc: 'public/assets/images/run_right.png',
 			framesMax: 8
 		},
 		Jump_left: {
@@ -106,12 +106,20 @@ const player = new EB_Player({
 			imageSrc: 'public/assets/images/Fall_right.png',
 			framesMax: 2
 		},
-		Attack_left: {
-			imageSrc: 'public/assets/images/Attack_left.png',
+		attack_left: {
+			imageSrc: 'public/assets/images/attack_left.png',
 			framesMax: 6
 		},
-		Attack_right: {
-			imageSrc: 'public/assets/images/Attack_right.png',
+		attack_right: {
+			imageSrc: 'public/assets/images/attack_right.png',
+			framesMax: 6
+		},
+		dead_left: {
+			imageSrc: 'public/assets/images/dead_left.png',
+			framesMax: 6
+		},
+		dead_right: {
+			imageSrc: 'public/assets/images/dead_right.png',
 			framesMax: 6
 		}
 	}
@@ -119,8 +127,8 @@ const player = new EB_Player({
 
 const enemy = new EB_Player({
 	position: {
-		x: game.width,
-		y: 240
+		x: game.width + 300,
+		y: 300
 	},
 	width: 50,
 	height: 150,
@@ -128,33 +136,33 @@ const enemy = new EB_Player({
 		x: 0,
 		y: 0
 	},
-	imageSrc: 'public/assets/images/idle_right.png',
+	imageSrc: 'public/assets/images/eidle_right.png',
 	framesMax: 8,
-	scale: 2,
+	scale: 1,
 	offset: {
 		x: 0,
 		y: 0
 	},
 	collisionBox: {
-		offset: {x: 150, y: 150},
-		width: 70,
-		height: 90
+		offset: {x: 120, y: 120},
+		width: 115,
+		height: 95
 	},
 	sprites: {
 		idle_right: {
-			imageSrc: 'public/assets/images/Idle_right.png',
+			imageSrc: 'public/assets/images/eidle_right.png',
 			framesMax: 8
 		},
 		idle_left: {
-			imageSrc: 'public/assets/images/Idle_left.png',
+			imageSrc: 'public/assets/images/eidle_left.png',
 			framesMax: 8
 		},
 		run_left: {
-			imageSrc: 'public/assets/images/RunLeft.png',
+			imageSrc: 'public/assets/images/erun_left.png',
 			framesMax: 8
 		},
 		run_right: {
-			imageSrc: 'public/assets/images/RunRight.png',
+			imageSrc: 'public/assets/images/erun_right.png',
 			framesMax: 8
 		},
 		Jump_left: {
@@ -173,12 +181,20 @@ const enemy = new EB_Player({
 			imageSrc: 'public/assets/images/Fall_right.png',
 			framesMax: 2
 		},
-		Attack_left: {
-			imageSrc: 'public/assets/images/Attack_left.png',
+		attack_left: {
+			imageSrc: 'public/assets/images/eattack_left.png',
 			framesMax: 6
 		},
-		Attack_right: {
-			imageSrc: 'public/assets/images/Attack_right.png',
+		attack_right: {
+			imageSrc: 'public/assets/images/eattack_right.png',
+			framesMax: 6
+		},
+		dead_left: {
+			imageSrc: 'public/assets/images/dead_left.png',
+			framesMax: 6
+		},
+		dead_right: {
+			imageSrc: 'public/assets/images/dead_right.png',
 			framesMax: 6
 		}
 	}

@@ -61,7 +61,7 @@ class EB_Background extends EB_Sprite {
   
     update() {
         this.draw();
-        if (this.position.x < -(this.width) || this.position.x > this.width) {
+        if ((this.position.x < -(this.width) || this.position.x > this.width) && this.loop) {
             this.position.x = 0;
         }
     }

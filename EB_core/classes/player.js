@@ -156,17 +156,31 @@ class EB_Player extends EB_Sprite {
                 this.framesCurrent = 0
             }
             break
-        case 'Attack_left':
-            if (this.image !== this.sprites.Attack_left.image) {
-                this.image = this.sprites.Attack_left.image
-                this.framesMax = this.sprites.Attack_left.framesMax
+        case 'attack_left':
+            if (this.image !== this.sprites.attack_left.image) {
+                this.image = this.sprites.attack_left.image
+                this.framesMax = this.sprites.attack_left.framesMax
                 this.framesCurrent = 0
             }
             break
-        case 'Attack_right':
-            if (this.image !== this.sprites.Attack_right.image) {
-                this.image = this.sprites.Attack_right.image
-                this.framesMax = this.sprites.Attack_right.framesMax
+        case 'attack_right':
+            if (this.image !== this.sprites.attack_right.image) {
+                this.image = this.sprites.attack_right.image
+                this.framesMax = this.sprites.attack_right.framesMax
+                this.framesCurrent = 0
+            }
+            break
+        case 'dead_left':
+            if (this.image !== this.sprites.dead_left.image) {
+                this.image = this.sprites.dead_left.image
+                this.framesMax = this.sprites.dead_left.framesMax
+                this.framesCurrent = 0
+            }
+            break
+        case 'dead_right':
+            if (this.image !== this.sprites.dead_right.image) {
+                this.image = this.sprites.dead_right.image
+                this.framesMax = this.sprites.dead_right.framesMax
                 this.framesCurrent = 0
             }
             break
