@@ -4,10 +4,13 @@ const game = new EB_Config(document.createElement("canvas"), 1024, 576, 20);
 function clock() { game.clock++ }
 
 // Music
-const music = new EB_Audio('public/assets/audio/music.mp3', 0.2, true);
+const music = new EB_Audio('public/assets/audio/EB_soundtrack.mp3', 0.9, true);
 
 // Sounds
-const hit = new EB_Audio('public/assets/audio/hit.wav');
+const attack = new EB_Audio('public/assets/audio/attack.mp3' , 0.8, false);
+const eattack = new EB_Audio('public/assets/audio/eattack.mp3', 0.8, false);
+const run = new EB_Audio('public/assets/audio/run.mp3', 0.3, true);
+const erun = new EB_Audio('public/assets/audio/erun.mp3', 0.5, true);
 
 const background = new EB_Background({
 	position: {

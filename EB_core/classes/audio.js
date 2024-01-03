@@ -16,16 +16,21 @@ class EB_Audio {
         this.sound.setAttribute("muted", "muted");
         this.sound.style.display = "none";
         document.body.appendChild(this.sound);
+        this.playing = false;
     }
 
-    play() {
-        this.sound.muted = false;
-        this.sound.play();        
+    play(reset = false, start = 0) {
+        if (reset && !this.playing) {
+            this.sound.currentTime = start;
+        }
+        this.sound.play();  
+        this.playing = true;      
     }
-    pause(reset = false) {
+    pause(reset = false, start = 0) {
         if (reset) {
-            this.sound.currentTime = 0;
+            this.sound.currentTime = start;
         }
         this.sound.pause();
+        this.playing = false;
     }
 }

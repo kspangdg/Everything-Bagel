@@ -29,6 +29,7 @@ function update() {
             }
             // flip
             player.flip = true;
+            (!player.jump && !player.fall) ? run.play() : run.pause(true);
             player.switchSprite('run_left');
         } else if (input.keys.ArrowRight.pressed && !player.attack && !player.dead) {
             if (player.collisionBox.right <= game.canvas.width - 350) {
@@ -42,8 +43,11 @@ function update() {
                 }
             }
             // flip
+            (!player.jump && !player.fall) ? run.play() : run.pause(true);
             player.flip = false;
             player.switchSprite('run_right');
+        } else {
+            run.pause(true);
         }
     
         // Jump
@@ -76,22 +80,23 @@ function update() {
             //player.velocity.x = 0;
             player.switchSprite('attack' + (player.flip ? '_left' : '_right'));
             if (player.framesElapsed == 10) {
-                hit.play();
+                attack.play();
                 player.hitBox.active = true;
             }
     
             if (player.framesElapsed == 30) {
                 player.attack = false;
                 player.hitBox.active = false;
-                hit.pause(true);
+                attack.pause(true);
             }
         }
     } else {
         player.switchSprite('dead' + (player.flip ? '_left' : '_right'));
         player.framesElapsed = 0;
+        player.velocity.x = 0;
+        music.pause(true);
         if (player.framesElapsed == 30) {
             player.dead = true;
-            console.log('dead');
         }
     }
 
@@ -104,13 +109,16 @@ function update() {
             enemy.velocity.x = -6;
             // flip
             enemy.flip = true;
+            erun.play(true, 0.6);
             enemy.switchSprite('run_left');
         } else if (player.collisionBox.left > enemy.collisionBox.right) {
             enemy.velocity.x = 6;
             // flip
             enemy.flip = false;
+            erun.play(true, 0.6);
             enemy.switchSprite('run_right');
         } else {
+            erun.pause(true, 0.6);
             if (player.jump || player.fall) {
                 enemy.switchSprite('idle' + (enemy.flip ? '_left' : '_right'))
             } else {
@@ -123,12 +131,14 @@ function update() {
             }
         }
     } else {
+        erun.pause(true, 0.6);
         enemy.switchSprite('idle' + (enemy.flip ? '_left' : '_right'))
     }
 
     if (player.hitBox.active && player.hitBox.right > enemy.collisionBox.left && player.hitBox.left < enemy.collisionBox.right) {
         if (enemy.health <= 0) {
             enemy.dead = true;
+            music.pause(true);
         } else {
             enemy.health -= 1;
         }
