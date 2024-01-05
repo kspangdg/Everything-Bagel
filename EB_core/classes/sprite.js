@@ -21,6 +21,10 @@ class EB_Sprite {
       this.height = height;
       this.scale = scale;
       this.image = new Image();
+      this.imageLoaded = false;
+      this.image.onload = () => {
+        this.imageLoaded = true;
+      }
       this.image.src = imageSrc;
       this.framesMax = framesMax;
       this.framesCurrent = 0;
@@ -40,17 +44,17 @@ class EB_Sprite {
         x = (this.position.x * -1) - ((this.image.width / this.framesMax) / 2);
         y = (this.position.y * -1) - (this.image.height / 2);
       }
-      game.context.drawImage(
-        this.image,
-        this.framesCurrent * (this.image.width / this.framesMax),
-        0,
-        this.image.width / this.framesMax,
-        this.image.height,
-        x,
-        y,
-        (this.image.width / this.framesMax) * this.scale,
-        this.image.height * this.scale
-      )
+        game.context.drawImage(
+          this.image,
+          this.framesCurrent * (this.image.width / this.framesMax),
+          0,
+          this.image.width / this.framesMax,
+          this.image.height,
+          x,
+          y,
+          (this.image.width / this.framesMax) * this.scale,
+          this.image.height * this.scale
+        )
       if (this.angle) {
         game.context.restore();
       }
@@ -98,7 +102,9 @@ class EB_Sprite {
     }
   
     update() {
-      this.draw()
-      this.animate()
+      if (this.imageLoaded) {
+        this.draw()
+        this.animate()
+      }
     }
   }
