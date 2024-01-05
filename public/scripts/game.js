@@ -82,7 +82,7 @@ const player = new EB_Player({
 			framesMax: 8
 		},
 		idle_left: {
-			imageSrc: 'public/assets/images/Idle_left.png',
+			imageSrc: 'public/assets/images/idle_left.png',
 			framesMax: 8
 		},
 		run_left: {
@@ -94,19 +94,19 @@ const player = new EB_Player({
 			framesMax: 8
 		},
 		Jump_left: {
-			imageSrc: 'public/assets/images/Jump_left.png',
+			imageSrc: 'public/assets/images/jump_left.png',
 			framesMax: 2
 		},
-		Jump_right: {
-			imageSrc: 'public/assets/images/Jump_right.png',
+		jump_right: {
+			imageSrc: 'public/assets/images/jump_right.png',
 			framesMax: 2
 		},
 		Fall_left: {
-			imageSrc: 'public/assets/images/Fall_left.png',
+			imageSrc: 'public/assets/images/fall_left.png',
 			framesMax: 2
 		},
 		Fall_right: {
-			imageSrc: 'public/assets/images/Fall_right.png',
+			imageSrc: 'public/assets/images/fall_right.png',
 			framesMax: 2
 		},
 		attack_left: {
@@ -169,19 +169,19 @@ const enemy = new EB_Player({
 			framesMax: 8
 		},
 		Jump_left: {
-			imageSrc: 'public/assets/images/Jump_left.png',
+			imageSrc: 'public/assets/images/jump_left.png',
 			framesMax: 2
 		},
 		Jump_right: {
-			imageSrc: 'public/assets/images/Jump_right.png',
+			imageSrc: 'public/assets/images/jump_right.png',
 			framesMax: 2
 		},
 		Fall_left: {
-			imageSrc: 'public/assets/images/Fall_left.png',
+			imageSrc: 'public/assets/images/fall_left.png',
 			framesMax: 2
 		},
 		Fall_right: {
-			imageSrc: 'public/assets/images/Fall_right.png',
+			imageSrc: 'public/assets/images/fall_right.png',
 			framesMax: 2
 		},
 		attack_left: {
