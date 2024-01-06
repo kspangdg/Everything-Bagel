@@ -20,17 +20,21 @@ class EB_Audio {
     }
 
     play(reset = false, start = 0) {
-        if (reset && !this.playing) {
-            this.sound.currentTime = start;
-        }
-        this.sound.play();  
-        this.playing = true;      
+        if (!game.mute) {
+            if (reset && !this.playing) {
+                this.sound.currentTime = start;
+            }
+            this.sound.play();  
+            this.playing = true; 
+        }     
     }
     pause(reset = false, start = 0) {
-        if (reset) {
-            this.sound.currentTime = start;
+        if (!game.mute) {
+            if (reset) {
+                this.sound.currentTime = start;
+            }
+            this.sound.pause();
+            this.playing = false;
         }
-        this.sound.pause();
-        this.playing = false;
     }
 }

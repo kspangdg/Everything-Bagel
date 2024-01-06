@@ -3,7 +3,6 @@ function update() {
     background.update();
     midground.update();
     forground.update();
-    //banner.update();
     enemy.update();
     player.update();
     
@@ -16,7 +15,7 @@ function update() {
         }
     
         // Run
-        if (input.keys.ArrowLeft.pressed && !player.attack && !player.dead) {
+        if (input.keys.ArrowLeft.pressed && !player.attack && !player.dead && !enemy.dead) {
             if (player.collisionBox.left >= 350) {
                 player.velocity.x = -8;
             } else { 
@@ -29,9 +28,8 @@ function update() {
             }
             // flip
             player.flip = true;
-            (!player.jump && !player.fall) ? run.play() : run.pause(true);
             player.switchSprite('run_left');
-        } else if (input.keys.ArrowRight.pressed && !player.attack && !player.dead) {
+        } else if (input.keys.ArrowRight.pressed && !player.attack && !player.dead && !enemy.dead) {
             if (player.collisionBox.right <= game.canvas.width - 350) {
                 player.velocity.x = 8;
             } else {
@@ -43,15 +41,12 @@ function update() {
                 }
             }
             // flip
-            (!player.jump && !player.fall) ? run.play() : run.pause(true);
             player.flip = false;
             player.switchSprite('run_right');
-        } else {
-            run.pause(true);
         }
     
         // Jump
-        if (input.keys.ArrowUp.pressed && !player.jump && !player.fall && !player.attack && !player.dead) {
+        if (input.keys.ArrowUp.pressed && !player.jump && !player.fall && !player.attack && !player.dead && !enemy.dead) {
             player.jump = true;
         }
         if (player.jump && player.position.y < 25) {
@@ -64,20 +59,27 @@ function update() {
         if (player.jump) {
             player.velocity.y = -20;
             player.switchSprite('Jump' + (player.flip ? '_left' : '_right'));
+            jump.play(true);
         } else if (player.fall) {
             player.velocity.y = 10;
             player.switchSprite('Fall' + (player.flip ? '_left' : '_right'));
+            jump.pause(true);
         } else {
             player.velocity.y = 0;
             player.position.y = 295;
         }
     
-        if (input.keys.Space.pressed && !player.jump && !player.fall && !player.dead) {
+        if (input.keys.x.pressed && !player.jump && !player.fall && !player.dead && !enemy.dead) {
             player.attack = true;
             player.framesElapsed = 0;
+            if (player.hitBox.active && player.hitBox.right > enemy.collisionBox.left && player.hitBox.left < enemy.collisionBox.right) {
+                if (enemy.health > 0 && !enemy.hit) {
+                    enemy.health -= 10;
+                    enemy.hit = true;
+                }
+            }
         }
         if (player.attack) {
-            //player.velocity.x = 0;
             player.switchSprite('attack' + (player.flip ? '_left' : '_right'));
             if (player.framesElapsed == 10) {
                 attack.play();
@@ -92,11 +94,15 @@ function update() {
         }
     } else {
         player.switchSprite('dead' + (player.flip ? '_left' : '_right'));
-        player.framesElapsed = 0;
         player.velocity.x = 0;
-        music.pause(true);
-        if (player.framesElapsed == 30) {
+        if (!player.dead) {
+            player.framesElapsed = 0
             player.dead = true;
+        }
+        if (player.dead && player.framesElapsed > 28) {
+            player.pauseAnimate = true;
+            music.pause(false);
+            gameover.update();
         }
     }
 
@@ -104,43 +110,58 @@ function update() {
     enemy.velocity.x = 0
 
     // Run
-    if (game.clock > 2 && !enemy.dead && !player.dead) {
+    if (game.clock > 2 && enemy.health > 0 && !player.dead) {
         if (player.collisionBox.right < enemy.collisionBox.left) {
             enemy.velocity.x = -6;
             // flip
             enemy.flip = true;
-            erun.play(true, 0.6);
             enemy.switchSprite('run_left');
         } else if (player.collisionBox.left > enemy.collisionBox.right) {
             enemy.velocity.x = 6;
             // flip
             enemy.flip = false;
-            erun.play(true, 0.6);
             enemy.switchSprite('run_right');
         } else {
-            erun.pause(true, 0.6);
             if (player.jump || player.fall) {
                 enemy.switchSprite('idle' + (enemy.flip ? '_left' : '_right'))
             } else {
                 enemy.switchSprite('attack' + (enemy.flip ? '_left' : '_right'));
-                    if (player.health <= 0) {
-
-                    } else {
-                        player.health -= 1;
+                    if (player.health > 0 && !player.hit) {
+                        player.health -= 10;
+                        player.hit = true;
+                        eattack.play();
+                        enemy.framesElapsed = 0
                     }
             }
         }
-    } else {
-        erun.pause(true, 0.6);
-        enemy.switchSprite('idle' + (enemy.flip ? '_left' : '_right'))
+    }
+
+    if (enemy.framesElapsed > 30 && player.hit) {
+        player.hit = false;
+    }
+
+
+    if (enemy.health <= 0) {
+        enemy.switchSprite('dead' + (enemy.flip ? '_left' : '_right'));
+        enemy.velocity.x = 0;
+        if (!enemy.dead) {
+            enemy.framesElapsed = 0
+            enemy.dead = true;
+        }
+        if (enemy.dead && enemy.framesElapsed > 28) {
+            enemy.pauseAnimate = true;
+            music.pause(false);
+            victory.update();
+        }
     }
 
     if (player.hitBox.active && player.hitBox.right > enemy.collisionBox.left && player.hitBox.left < enemy.collisionBox.right) {
-        if (enemy.health <= 0) {
-            enemy.dead = true;
-            music.pause(true);
-        } else {
-            enemy.health -= 1;
+        if (enemy.health > 0 && !enemy.hit) {
+            enemy.health -= 10;
+            enemy.hit = true;
         }
+    }
+    if (player.framesElapsed > 30 && enemy.hit) {
+        enemy.hit = false;
     }
 }

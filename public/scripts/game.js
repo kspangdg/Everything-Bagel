@@ -1,3 +1,5 @@
+// Config Main Menu
+const menu = new EB_Menu(1024, 576, "public/assets/images/menu_background.png");
 // Config Canvas
 const game = new EB_Config(document.createElement("canvas"), 1024, 576, 20);
 // Update clock
@@ -6,11 +8,10 @@ function clock() { game.clock++ }
 // Music
 const music = new EB_Audio('public/assets/audio/EB_soundtrack.mp3', 0.9, true);
 
-// Sounds
-const attack = new EB_Audio('public/assets/audio/attack.mp3' , 0.8, false);
-const eattack = new EB_Audio('public/assets/audio/eattack.mp3', 0.8, false);
-const run = new EB_Audio('public/assets/audio/run.mp3', 0.3, true);
-const erun = new EB_Audio('public/assets/audio/erun.mp3', 0.5, true);
+// Sounds FX
+const attack = new EB_Audio('public/assets/audio/attack.mp3' , 0.4, false);
+const eattack = new EB_Audio('public/assets/audio/eattack.mp3', 0.9, false);
+const jump = new EB_Audio('public/assets/audio/jump.mp3', 0.4, false);
 
 const background = new EB_Background({
 	position: {
@@ -36,17 +37,22 @@ const forground = new EB_Background({
 	imageSrc: 'public/assets/images/forground.png',
 	loop: false,
 });
-
-const banner = new EB_Sprite({
+const gameover = new EB_Background({
 	position: {
-		x: (game.width / 2) - 300,
-		y: 24
+		x: 0,
+		y: 0
 	},
-	width: 50,
-	height: 150,
-	imageSrc: 'public/assets/images/banner.png',
-	scale: 2
-})
+	imageSrc: 'public/assets/images/gameover.png',
+	loop: false,
+});
+const victory = new EB_Background({
+	position: {
+		x: 0,
+		y: 0
+	},
+	imageSrc: 'public/assets/images/youwon.png',
+	loop: false,
+});
 
 const player = new EB_Player({
 	position: {
@@ -193,21 +199,38 @@ const enemy = new EB_Player({
 			framesMax: 6
 		},
 		dead_left: {
-			imageSrc: 'public/assets/images/dead_left.png',
+			imageSrc: 'public/assets/images/edead_left.png',
 			framesMax: 6
 		},
 		dead_right: {
-			imageSrc: 'public/assets/images/dead_right.png',
+			imageSrc: 'public/assets/images/edead_right.png',
 			framesMax: 6
 		}
 	}
 })
 
-const input = new EB_Input([ "ArrowLeft", "ArrowRight", "ArrowUp", "Space"], false);
+const input = new EB_Input([ "ArrowLeft", "ArrowRight", "ArrowUp", "x"], false);
+
+// Main Menu
+menu.init();
+
+// Toggle mute
+function mute() {
+	let audio_button = document.getElementById('audio_btn');
+	let audio_img = audio_button.childNodes[0];
+	if (game.mute) {
+		game.mute = false
+		audio_img.src = 'public/assets/images/audio_on.png';
+	} else {
+		game.mute = true;
+		audio_img.src = 'public/assets/images/audio_off.png';
+	}
+}
+
 
 // Start the game
 function init() {
-	document.getElementById('play_btn').remove();
+	menu.hide();
 	game.start();
 	music.play();
 }

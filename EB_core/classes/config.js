@@ -18,6 +18,7 @@ class EB_Config {
         this.mode = 1, // 1 = easy, 2 = medium, 3 = hard
         this.clock = 0,
         this.debug;
+        this.mute = false;
     }
 
     start() {

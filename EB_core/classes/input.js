@@ -16,6 +16,7 @@ class EB_Input {
         }
         window.addEventListener('keydown', (event) => {
             let eventKey = event.key;
+            if (game.debug) console.log(eventKey);
             if (eventKey == " ") eventKey = "Space";
             // loop through keys object
             for (const key in this.keys) {

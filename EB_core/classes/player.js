@@ -42,11 +42,13 @@ class EB_Player extends EB_Sprite {
       this.framesElapsed = 0
       this.framesHold = 5
       this.sprites = sprites
+      this.pauseAnimate = false
       this.dead = false
       this.flip = false
       this.jump = false
       this.attack = false
       this.fall = false
+      this.hit = false
   
       for (const sprite in this.sprites) {
         sprites[sprite].image = new Image()
@@ -88,11 +90,14 @@ class EB_Player extends EB_Sprite {
       game.context.rect(this.collisionBox.left, this.collisionBox.top - 30, this.collisionBox.width, 5);
       game.context.stroke();
 
+      if (this.hit && !this.dead) {
+        game.context.font = "10px Arial";
+        game.context.fillStyle = "red";
+        game.context.textAlign = "center";
+        game.context.fillText("-10",this.collisionBox.left - 15, this.collisionBox.top - 24);
+      }
 
-
-
-
-      if (!this.dead) this.animate()
+      if (!this.pauseAnimate) this.animate()
    
       this.position.x += this.velocity.x
       this.position.y += this.velocity.y
@@ -128,31 +133,31 @@ class EB_Player extends EB_Sprite {
                 this.framesCurrent = 0
             }
             break
-        case 'Jump_left':
-            if (this.image !== this.sprites.Jump_left.image) {
-                this.image = this.sprites.Jump_left.image
-                this.framesMax = this.sprites.Jump_left.framesMax
+        case 'jump_left':
+            if (this.image !== this.sprites.jump_left.image) {
+                this.image = this.sprites.jump_left.image
+                this.framesMax = this.sprites.jump_left.framesMax
                 this.framesCurrent = 0
             }
             break
-        case 'Jump_right':
-            if (this.image !== this.sprites.Jump_right.image) {
-                this.image = this.sprites.Jump_right.image
-                this.framesMax = this.sprites.Jump_right.framesMax
+        case 'jump_right':
+            if (this.image !== this.sprites.jump_right.image) {
+                this.image = this.sprites.jump_right.image
+                this.framesMax = this.sprites.jump_right.framesMax
                 this.framesCurrent = 0
             }
             break
-        case 'Fall_left':
-            if (this.image !== this.sprites.Fall_left.image) {
-                this.image = this.sprites.Fall_left.image
-                this.framesMax = this.sprites.Fall_left.framesMax
+        case 'fall_left':
+            if (this.image !== this.sprites.fall_left.image) {
+                this.image = this.sprites.fall_left.image
+                this.framesMax = this.sprites.fall_left.framesMax
                 this.framesCurrent = 0
             }
             break
-        case 'Fall_right':
-            if (this.image !== this.sprites.Fall_right.image) {
-                this.image = this.sprites.Fall_right.image
-                this.framesMax = this.sprites.Fall_right.framesMax
+        case 'fall_right':
+            if (this.image !== this.sprites.fall_right.image) {
+                this.image = this.sprites.fall_right.image
+                this.framesMax = this.sprites.fall_right.framesMax
                 this.framesCurrent = 0
             }
             break
