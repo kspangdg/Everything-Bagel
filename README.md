@@ -1,4 +1,4 @@
-# Everything Bagel (Game Engine)
+# EverythingBagel.JS :bagel:
 A simple game engine written in javascript. 
 Run index.html in a browser to play the game.
 
