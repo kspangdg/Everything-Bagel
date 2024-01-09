@@ -1,5 +1,5 @@
 /**
- * Configs game canvas and fps.
+ * Configures game canvas, fps, basic meta.
  *
  * @param {dom element} canvas - Create or point to canvas element (e.g. document.createElement("canvas"))
  * @param {int} width - Width of the canvas

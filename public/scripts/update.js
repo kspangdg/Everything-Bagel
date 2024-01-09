@@ -138,7 +138,7 @@ function update() {
 
     if (enemy.framesElapsed > 30 && player.hit) {
         player.hit = false;
-        eattack.pause(true);
+        eattack.pause(true);      
     }
 
 
