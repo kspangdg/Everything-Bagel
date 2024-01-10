@@ -2,6 +2,7 @@
  * Audio handler.
  *
  * @param {string} src - The audio file source (e.g. 'public/assets/audio/sound.mp3')
+ * @param {number} volume - The audio volume (0 to 1)
  * @param {bool} loop - Define if audio should loop
  */
 
@@ -36,5 +37,12 @@ class EB_Audio {
             this.sound.pause();
             this.playing = false;
         }
+    }
+    volume(input) {
+        if (typeof input !== 'number') {
+           console.error('EB_Audio.volume() input must be a number'); 
+           return; 
+        } 
+        this.sound.volume = this.sound.volume + input;
     }
 }

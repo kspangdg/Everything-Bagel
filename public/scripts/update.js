@@ -1,5 +1,9 @@
+function timer() {
+	clock.seconds++;
+}
 function update() {
     game.clear();
+    clock.update();
     background.update();
     midground.update();
     forground.update();
@@ -72,34 +76,38 @@ function update() {
         if (input.keys.x.pressed && !player.jump && !player.fall && !player.dead && !enemy.dead) {
             player.attack = true;
             player.framesElapsed = 0;
+            clock.timer_start('player_attack',5);
+            clock.timer_start('player_attack_sound', 1);
+        }
+        if (player.attack) {
+            player.switchSprite('attack' + (player.flip ? '_left' : '_right'));
+            if (clock.timer_end('player_attack_sound')) {
+                attack.play();
+                player.hitBox.active = true;
+            }
             if (player.hitBox.active && player.hitBox.right > enemy.collisionBox.left && player.hitBox.left < enemy.collisionBox.right) {
                 if (enemy.health > 0 && !enemy.hit) {
                     enemy.health -= 10;
                     enemy.hit = true;
                 }
             }
-        }
-        if (player.attack) {
-            player.switchSprite('attack' + (player.flip ? '_left' : '_right'));
-            if (player.framesElapsed == 10) {
-                attack.play();
-                player.hitBox.active = true;
-            }
-    
-            if (player.framesElapsed == 30) {
+            if (clock.timer_end('player_attack')) {
                 player.attack = false;
                 player.hitBox.active = false;
                 attack.pause(true);
+                if (enemy.hit) {
+                    enemy.hit = false;
+                }
             }
         }
     } else {
         player.switchSprite('dead' + (player.flip ? '_left' : '_right'));
         player.velocity.x = 0;
         if (!player.dead) {
-            player.framesElapsed = 0
             player.dead = true;
+            clock.timer_start('player_dead',4);
         }
-        if (player.dead && player.framesElapsed > 28) {
+        if (player.dead && clock.timer_end('player_dead')) {
             player.pauseAnimate = true;
             music.pause(false);
             gameover.update();
@@ -110,17 +118,17 @@ function update() {
     enemy.velocity.x = 0
 
     // Run
-    if (game.clock > 2 && enemy.health > 0 && !player.dead) {
-        if (player.collisionBox.right < enemy.collisionBox.left) {
-            enemy.velocity.x = -6;
-            // flip
-            enemy.flip = true;
-            enemy.switchSprite('run_left');
-        } else if (player.collisionBox.left > enemy.collisionBox.right) {
-            enemy.velocity.x = 6;
-            // flip
-            enemy.flip = false;
-            enemy.switchSprite('run_right');
+    if (clock.seconds > 2 && enemy.health > 0 && !player.dead) {
+        if (physics.collision(player, enemy) == false) {
+            if (player.position.x < enemy.position.x) { 
+                enemy.velocity.x = -6;
+                enemy.flip = true;
+                enemy.switchSprite('run_left');
+            } else if (player.position.x > enemy.position.x) {
+                enemy.velocity.x = 6;
+                enemy.flip = false;
+                enemy.switchSprite('run_right');                
+            }
         } else {
             if (player.jump || player.fall) {
                 enemy.switchSprite('idle' + (enemy.flip ? '_left' : '_right'))
@@ -130,13 +138,13 @@ function update() {
                         player.health -= 10;
                         player.hit = true;
                         eattack.play();
-                        enemy.framesElapsed = 0
+                        clock.timer_start('enemy_attack',5);
                     }
             }
         }
     }
 
-    if (enemy.framesElapsed > 30 && player.hit) {
+    if (player.hit && clock.timer_end('enemy_attack')) {
         player.hit = false;
         eattack.pause(true);
     }
@@ -146,23 +154,13 @@ function update() {
         enemy.switchSprite('dead' + (enemy.flip ? '_left' : '_right'));
         enemy.velocity.x = 0;
         if (!enemy.dead) {
-            enemy.framesElapsed = 0
             enemy.dead = true;
+            clock.timer_start('enemy_dead',4);
         }
-        if (enemy.dead && enemy.framesElapsed > 28) {
+        if (enemy.dead && clock.timer_end('enemy_dead')) {
             enemy.pauseAnimate = true;
             music.pause(false);
             victory.update();
         }
-    }
-
-    if (player.hitBox.active && player.hitBox.right > enemy.collisionBox.left && player.hitBox.left < enemy.collisionBox.right) {
-        if (enemy.health > 0 && !enemy.hit) {
-            enemy.health -= 10;
-            enemy.hit = true;
-        }
-    }
-    if (player.framesElapsed > 30 && enemy.hit) {
-        enemy.hit = false;
     }
 }

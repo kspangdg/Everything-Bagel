@@ -1,9 +1,12 @@
 // Config Main Menu
 const menu = new EB_Menu(1024, 576, "public/assets/images/menu_background.png");
 // Config Canvas
-const game = new EB_Config(document.createElement("canvas"), 1024, 576, 20);
-// Update clock
-function clock() { game.clock++ }
+const game = new EB_Config(document.createElement("canvas"), 1024, 576);
+// Start clock
+const clock = new EB_Clock(20);
+
+// Init physics
+const physics = new EB_Physics();
 
 // Music
 const music = new EB_Audio('public/assets/audio/EB_soundtrack.mp3', 0.9, true);
@@ -67,12 +70,8 @@ const player = new EB_Player({
 	},
 	imageSrc: 'public/assets/images/idle_right.png',
 	framesMax: 8,
-	scale: 1,
-	offset: {
-		x: 0,
-		y: 0
-	},
 	collisionBox: {
+		active: true,
 		offset: {x: 140, y: 125},
 		width: 80,
 		height: 100
@@ -147,12 +146,8 @@ const enemy = new EB_Player({
 	},
 	imageSrc: 'public/assets/images/eidle_right.png',
 	framesMax: 8,
-	scale: 1,
-	offset: {
-		x: 0,
-		y: 0
-	},
 	collisionBox: {
+		active: true,
 		offset: {x: 120, y: 120},
 		width: 115,
 		height: 95
@@ -231,6 +226,7 @@ function mute() {
 // Start the game
 function init() {
 	menu.hide();
+	clock.start();
 	game.start();
 	music.play();
 }

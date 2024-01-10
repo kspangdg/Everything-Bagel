@@ -1,3 +1,4 @@
+Version 0.1.0
 # EverythingBagel.JS :bagel:
 A simple game engine written in javascript. 
 Run index.html in a browser to play the game.
@@ -38,6 +39,7 @@ A background class that can be used to create background for the game.
 * Add terrain generation
 * Upgrade EB_Sprite to support flipX, flipY, rotation, isSpriteOnScreen, etc, while animating
 * Add more timing/delay functions (e.g. wait 1 second or 30 frames, then do something)
+* Add spawn function to EB_player
 * Overall code cleanup, optimization, and documentation
 
 

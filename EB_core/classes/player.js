@@ -5,9 +5,7 @@ class EB_Player extends EB_Sprite {
       height,
       velocity = {x: 0, y: 0},
       imageSrc,
-      scale = 1,
       framesMax = 1,
-      offset = { x: 0, y: 0 },
       collisionBox = {
         active: false,
         offset: {x: 0, y: 0},
@@ -27,9 +25,7 @@ class EB_Player extends EB_Sprite {
         width,
         height,
         imageSrc,
-        scale,
         framesMax,
-        offset,
         collisionBox
       })
   
@@ -58,13 +54,13 @@ class EB_Player extends EB_Sprite {
   
     update() {
       this.draw()
-      let x = this.position.x - this.offset.x + this.hitBox.offset.x;
-      let y = this.position.y - this.offset.y + this.hitBox.offset.y;
+      let x = this.position.x - this.hitBox.offset.x;
+      let y = this.position.y - this.hitBox.offset.y;
 
       // Hit box
       if ((this.hitBox.width > 0 || this.hitBox.height > 0) && this.hitBox.active) {
         if (!this.flip) {
-          x = (this.position.x - this.offset.x) + (this.image.width / this.framesMax  * this.scale) - this.hitBox.offset.x - this.hitBox.width;
+          x = (this.position.x) + (this.image.width / this.framesMax) - this.hitBox.offset.x - this.hitBox.width;
         }
         // Get outline
         this.hitBox['left'] = x;
@@ -102,7 +98,7 @@ class EB_Player extends EB_Sprite {
       this.position.x += this.velocity.x
       this.position.y += this.velocity.y
     }
-
+    
     switchSprite(sprite) {
       switch (sprite) {
         case 'idle_right':

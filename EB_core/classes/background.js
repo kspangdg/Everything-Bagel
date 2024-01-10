@@ -3,13 +3,11 @@ class EB_Background extends EB_Sprite {
       position,
       imageSrc,
       loop = false,
-      scale = 1,
       framesMax = 1,
     }) {
       super({
         position,
         imageSrc,
-        scale,
         framesMax,
       })
   
@@ -30,8 +28,8 @@ class EB_Background extends EB_Sprite {
           this.image.height,
           this.position.x,
           this.position.y,
-          (this.image.width / this.framesMax) * this.scale,
-          this.image.height * this.scale
+          (this.image.width / this.framesMax),
+          this.image.height
         );
         if (this.loop) {
             game.context.drawImage(
@@ -42,8 +40,8 @@ class EB_Background extends EB_Sprite {
                 this.image.height,
                 this.position.x + this.width,
                 this.position.y,
-                (this.image.width / this.framesMax) * this.scale,
-                this.image.height * this.scale
+                (this.image.width / this.framesMax),
+                this.image.height
             ); 
             game.context.drawImage(
                 this.image,
@@ -53,8 +51,8 @@ class EB_Background extends EB_Sprite {
                 this.image.height,
                 this.position.x - this.width,
                 this.position.y,
-                (this.image.width / this.framesMax) * this.scale,
-                this.image.height * this.scale
+                (this.image.width / this.framesMax),
+                this.image.height
             );           
         }
     }

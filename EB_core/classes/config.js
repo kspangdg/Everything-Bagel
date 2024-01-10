@@ -8,15 +8,13 @@
  */
 
 class EB_Config {
-    constructor(canvas, width, height, fps) {
+    constructor(canvas, width, height) {
         this.canvas = canvas;
         this.width = width;
         this.height = height;
-        this.fps = fps;
         this.context = this.canvas.getContext("2d");
         this.level = 1,
         this.mode = 1, // 1 = easy, 2 = medium, 3 = hard
-        this.clock = 0,
         this.debug;
         this.mute = false;
     }
@@ -25,14 +23,9 @@ class EB_Config {
         this.canvas.width = this.width;
         this.canvas.height = this.height;
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(update, this.fps);
-        setInterval(clock, 1000);
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);        
     }
     clear() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-    stop() {
-        clearInterval(this.interval);
     }
 }
