@@ -13,7 +13,6 @@ function update() {
 
     // Player
     if (player.health > 0) {
-        player.velocity.x = 0
         if (!input.keys.ArrowLeft.pressed && !input.keys.ArrowRight.pressed && !player.jump && !player.fall && !player.attack) {
             player.switchSprite('idle' + (player.flip ? '_left' : '_right'));
         }
@@ -21,8 +20,11 @@ function update() {
         // Run
         if (input.keys.ArrowLeft.pressed && !player.attack && !player.dead && !enemy.dead) {
             if (player.collisionBox.left >= 350) {
-                player.velocity.x = -8;
+                if (player.velocity.x >= -8) {
+                    player.velocity.x -= 0.5;
+                }
             } else { 
+                player.velocity.x = 0
                 if (forground.position.x < -240) {
                     background.position.x += 2;
                     midground.position.x += 4;
@@ -35,8 +37,11 @@ function update() {
             player.switchSprite('run_left');
         } else if (input.keys.ArrowRight.pressed && !player.attack && !player.dead && !enemy.dead) {
             if (player.collisionBox.right <= game.canvas.width - 350) {
-                player.velocity.x = 8;
+                if (player.velocity.x <= 8) {
+                    player.velocity.x += 0.5;
+                }
             } else {
+                player.velocity.x = 0
                 if (forground.position.x > -forground.image.width + 1270) {
                     background.position.x -= 2;
                     midground.position.x -= 4;
@@ -47,25 +52,31 @@ function update() {
             // flip
             player.flip = false;
             player.switchSprite('run_right');
+        } else {
+            player.velocity.x = 0;
         }
     
         // Jump
         if (input.keys.ArrowUp.pressed && !player.jump && !player.fall && !player.attack && !player.dead && !enemy.dead) {
             player.jump = true;
+            player.time = 0;
         }
-        if (player.jump && player.position.y < 25) {
+        if (player.jump && player.position.y < 150) {
             player.jump = false;
             player.fall = true;
+            player.time = 0;
         }
         if (player.fall && player.collisionBox.bottom >= 525) {
             player.fall = false;
         }
         if (player.jump) {
-            player.velocity.y = -20;
+            player.time++;
+            player.velocity.y -= 5 + (player.time / 5);
             player.switchSprite('Jump' + (player.flip ? '_left' : '_right'));
             jump.play(true);
         } else if (player.fall) {
-            player.velocity.y = 10;
+            player.time++;
+            player.velocity.y += 5 - (player.time / 5);
             player.switchSprite('Fall' + (player.flip ? '_left' : '_right'));
             jump.pause(true);
         } else {
@@ -73,6 +84,7 @@ function update() {
             player.position.y = 295;
         }
     
+        // Attack
         if (input.keys.x.pressed && !player.jump && !player.fall && !player.dead && !enemy.dead) {
             player.attack = true;
             player.framesElapsed = 0;
@@ -115,21 +127,27 @@ function update() {
     }
 
     // Enemy
-    enemy.velocity.x = 0
 
     // Run
     if (clock.seconds > 2 && enemy.health > 0 && !player.dead) {
         if (physics.collision(player, enemy) == false) {
             if (player.position.x < enemy.position.x) { 
-                enemy.velocity.x = -6;
+                if (enemy.velocity.x >= -6) {
+                    enemy.velocity.x -= 0.5;
+                }
                 enemy.flip = true;
                 enemy.switchSprite('run_left');
             } else if (player.position.x > enemy.position.x) {
-                enemy.velocity.x = 6;
+                if (enemy.velocity.x <= 6) {
+                    enemy.velocity.x += 0.5;
+                }
                 enemy.flip = false;
                 enemy.switchSprite('run_right');                
+            } else {
+                enemy.velocity.x = 0;
             }
         } else {
+            enemy.velocity.x = 0;
             if (player.jump || player.fall) {
                 enemy.switchSprite('idle' + (enemy.flip ? '_left' : '_right'))
             } else {

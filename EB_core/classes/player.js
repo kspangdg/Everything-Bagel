@@ -42,6 +42,7 @@ class EB_Player extends EB_Sprite {
       this.dead = false
       this.flip = false
       this.jump = false
+      this.time = 0
       this.attack = false
       this.fall = false
       this.hit = false
@@ -87,10 +88,10 @@ class EB_Player extends EB_Sprite {
       game.context.stroke();
 
       if (this.hit && !this.dead) {
-        game.context.font = "10px Arial";
+        game.context.font = "16px Arial";
         game.context.fillStyle = "red";
         game.context.textAlign = "center";
-        game.context.fillText("-10",this.collisionBox.left - 15, this.collisionBox.top - 24);
+        game.context.fillText("-10",this.collisionBox.left - 18, this.collisionBox.top - 24);
       }
 
       if (!this.pauseAnimate) this.animate()
