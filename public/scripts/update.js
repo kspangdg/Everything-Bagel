@@ -85,7 +85,7 @@ function update() {
         }
     
         // Attack
-        if (input.keys.x.pressed && !player.jump && !player.fall && !player.dead && !enemy.dead) {
+        if (input.keys.x.pressed && !player.jump && !player.fall && !player.dead && !enemy.dead && !player.attack) {
             player.attack = true;
             player.framesElapsed = 0;
             clock.timer_start('player_attack',5);
