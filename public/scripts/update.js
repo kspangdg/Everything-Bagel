@@ -72,12 +72,12 @@ function update() {
         if (player.jump) {
             player.time++;
             player.velocity.y -= 5 + (player.time / 5);
-            player.switchSprite('Jump' + (player.flip ? '_left' : '_right'));
+            player.switchSprite('jump' + (player.flip ? '_left' : '_right'));
             jump.play(true);
         } else if (player.fall) {
             player.time++;
             player.velocity.y += 5 - (player.time / 5);
-            player.switchSprite('Fall' + (player.flip ? '_left' : '_right'));
+            player.switchSprite('fall' + (player.flip ? '_left' : '_right'));
             jump.pause(true);
         } else {
             player.velocity.y = 0;

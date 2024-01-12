@@ -98,7 +98,7 @@ const player = new EB_Player({
 			imageSrc: 'public/assets/images/run_right.png',
 			framesMax: 8
 		},
-		Jump_left: {
+		jump_left: {
 			imageSrc: 'public/assets/images/jump_left.png',
 			framesMax: 2
 		},
@@ -106,11 +106,11 @@ const player = new EB_Player({
 			imageSrc: 'public/assets/images/jump_right.png',
 			framesMax: 2
 		},
-		Fall_left: {
+		fall_left: {
 			imageSrc: 'public/assets/images/fall_left.png',
 			framesMax: 2
 		},
-		Fall_right: {
+		fall_right: {
 			imageSrc: 'public/assets/images/fall_right.png',
 			framesMax: 2
 		},
@@ -169,19 +169,19 @@ const enemy = new EB_Player({
 			imageSrc: 'public/assets/images/erun_right.png',
 			framesMax: 8
 		},
-		Jump_left: {
+		jump_left: {
 			imageSrc: 'public/assets/images/jump_left.png',
 			framesMax: 2
 		},
-		Jump_right: {
+		jump_right: {
 			imageSrc: 'public/assets/images/jump_right.png',
 			framesMax: 2
 		},
-		Fall_left: {
+		fall_left: {
 			imageSrc: 'public/assets/images/fall_left.png',
 			framesMax: 2
 		},
-		Fall_right: {
+		fall_right: {
 			imageSrc: 'public/assets/images/fall_right.png',
 			framesMax: 2
 		},
