@@ -1,6 +1,7 @@
 /**
  * Audio handler.
  *
+ * @class EB_Audio
  * @param {string} src - The audio file source (e.g. 'public/assets/audio/sound.mp3')
  * @param {number} volume - The audio volume (0 to 1)
  * @param {bool} loop - Define if audio should loop

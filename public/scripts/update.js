@@ -13,66 +13,62 @@ function update() {
     // Player
     if (player.health > 0) {
         if (!input.keys.ArrowLeft.pressed && !input.keys.ArrowRight.pressed && !player.jump && !player.fall && !player.attack) {
-            player.switchSprite('idle_right');
+            player.switch_sprite('idle_right');
         }
         // Run
         if (input.keys.ArrowLeft.pressed && !player.attack && !player.dead && !enemy.dead) {
-            if (player.collisionBox.left >= 350) {
-                if (player.velocity.x >= -8) {
-                    player.velocity.x -= 0.5;
-                }
+            if (player.collision_box.left >= 350) {
+                player.velocity.x = physics.excelerate(player, 8, 0.5).left
             } else { 
                 player.velocity.x = 0
                 if (forground.position.x < -240) {
-                    background.position.x += 2;
-                    midground.position.x += 4;
-                    forground.position.x += 8;
+                    background.position_x(8);
+                    midground.position_x(8);
+                    forground.position_x(8);
                     enemy.position.x += 8;
                 }
             }
             player.flip = true;
-            player.switchSprite('run_right');
+            player.switch_sprite('run_right');
         } else if (input.keys.ArrowRight.pressed && !player.attack && !player.dead && !enemy.dead) {
-            if (player.collisionBox.right <= game.canvas.width - 350) {
-                if (player.velocity.x <= 8) {
-                    player.velocity.x += 0.5;
-                }
+            if (player.collision_box.right <= game.canvas.width - 350) {
+                player.velocity.x = physics.excelerate(player, 8, 0.5).right
             } else {
                 player.velocity.x = 0
                 if (forground.position.x > -forground.image.width + 1270) {
-                    background.position.x -= 2;
-                    midground.position.x -= 4;
-                    forground.position.x -= 8;
+                    background.position_x(-8);
+                    midground.position_x(-8);
+                    forground.position_x(-8);
                     enemy.position.x -= 8;
                 }
             }
             player.flip = false;
-            player.switchSprite('run_right');
+            player.switch_sprite('run_right');
         } else {
             player.velocity.x = 0;
         }
         // Jump
         if (input.keys.ArrowUp.pressed && !player.jump && !player.fall && !player.attack && !player.dead && !enemy.dead) {
             player.jump = true;
-            player.time = 0;
+            player.jump_timer = 0;
         }
         if (player.jump && player.position.y < 150) {
             player.jump = false;
             player.fall = true;
-            player.time = 0;
+            player.jump_timer = 0;
         }
-        if (player.fall && player.collisionBox.bottom >= 525) {
+        if (player.fall && player.collision_box.bottom >= 525) {
             player.fall = false;
         }
         if (player.jump) {
-            player.time++;
-            player.velocity.y -= 5 + (player.time / 5);
-            player.switchSprite('jump_right');
+            player.jump_timer++;
+            player.velocity.y -= 5 + (player.jump_timer / 5);
+            player.switch_sprite('jump_right');
             jump.play(true);
         } else if (player.fall) {
-            player.time++;
-            player.velocity.y += 5 - (player.time / 5);
-            player.switchSprite('fall_right');
+            player.jump_timer++;
+            player.velocity.y += 5 - (player.jump_timer / 5);
+            player.switch_sprite('fall_right');
             jump.pause(true);
         } else {
             player.velocity.y = 0;
@@ -81,17 +77,17 @@ function update() {
         // Attack
         if (input.keys.x.pressed && !player.jump && !player.fall && !player.dead && !enemy.dead && !player.attack) {
             player.attack = true;
-            player.framesElapsed = 0;
+            player.frames_elapsed = 0;
             clock.timer_start('player_attack',5);
             clock.timer_start('player_attack_sound', 1);
         }
         if (player.attack) {
-            player.switchSprite('attack_right');
+            player.switch_sprite('attack_right');
             if (clock.timer_end('player_attack_sound')) {
                 attack.play();
-                player.hitBox.active = true;
+                player.hit_box.active = true;
             }
-            if (player.hitBox.active && player.hitBox.right > enemy.collisionBox.left && player.hitBox.left < enemy.collisionBox.right) {
+            if (player.hit_box.active && player.hit_box.right > enemy.collision_box.left && player.hit_box.left < enemy.collision_box.right) {
                 if (enemy.health > 0 && !enemy.hit) {
                     enemy.health -= 10;
                     enemy.hit = true;
@@ -99,7 +95,7 @@ function update() {
             }
             if (clock.timer_end('player_attack')) {
                 player.attack = false;
-                player.hitBox.active = false;
+                player.hit_box.active = false;
                 attack.pause(true);
                 if (enemy.hit) {
                     enemy.hit = false;
@@ -107,14 +103,14 @@ function update() {
             }
         }
     } else {
-        player.switchSprite('dead_right');
+        player.switch_sprite('dead_right');
         player.velocity.x = 0;
         if (!player.dead) {
             player.dead = true;
-            clock.timer_start('player_dead',4);
+            player.frames_elapsed = 0;
         }
-        if (player.dead && clock.timer_end('player_dead')) {
-            player.pauseAnimate = true;
+        if (player.dead && player.frames_elapsed > 25) {
+            player.pause_animate = true;
             music.pause(false);
             gameover.update();
         }
@@ -123,28 +119,24 @@ function update() {
     // Enemy
     // Run
     if (clock.seconds > 2 && enemy.health > 0 && !player.dead) {
-        if (physics.collision(player, enemy) == false) {
+        if (!physics.collision(enemy, player).any && !player.hit) {
             if (player.position.x < enemy.position.x) { 
-                if (enemy.velocity.x >= -6) {
-                    enemy.velocity.x -= 0.5;
-                }
+                enemy.velocity.x = physics.excelerate(enemy, 6, 0.5).left
                 enemy.flip = true;
-                enemy.switchSprite('run_right');
+                enemy.switch_sprite('run_right');
             } else if (player.position.x > enemy.position.x) {
-                if (enemy.velocity.x <= 6) {
-                    enemy.velocity.x += 0.5;
-                }
+                enemy.velocity.x = physics.excelerate(enemy, 6, 0.5).right
                 enemy.flip = false;
-                enemy.switchSprite('run_right');                
+                enemy.switch_sprite('run_right');                
             } else {
                 enemy.velocity.x = 0;
             }
         } else {
             enemy.velocity.x = 0;
-            if (player.jump || player.fall) {
-                enemy.switchSprite('idle_right');
+            if (player.jump || player.fall && !player.hit) {
+                enemy.switch_sprite('idle_right');
             } else {
-                enemy.switchSprite('attack_right');
+                enemy.switch_sprite('attack_right');
                 if (player.health > 0 && !player.hit) {
                     player.health -= 10;
                     player.hit = true;
@@ -159,14 +151,14 @@ function update() {
         eattack.pause(true);
     }
     if (enemy.health <= 0) {
-        enemy.switchSprite('dead_right');
+        enemy.switch_sprite('dead_right');
         enemy.velocity.x = 0;
         if (!enemy.dead) {
             enemy.dead = true;
-            clock.timer_start('enemy_dead',4);
+            enemy.frames_elapsed = 0;
         }
-        if (enemy.dead && clock.timer_end('enemy_dead')) {
-            enemy.pauseAnimate = true;
+        if (enemy.dead && enemy.frames_elapsed > 25) {
+            enemy.pause_animate = true;
             music.pause(false);
             victory.update();
         }

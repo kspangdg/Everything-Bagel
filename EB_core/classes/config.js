@@ -1,10 +1,10 @@
 /**
  * Configures game canvas, fps, basic meta.
  *
+ * @class EB_Config
  * @param {dom element} canvas - Create or point to canvas element (e.g. document.createElement("canvas"))
  * @param {int} width - Width of the canvas
  * @param {int} height - Height of the canvas
- * @param {int} interval - Game Loop speed
  */
 
 class EB_Config {

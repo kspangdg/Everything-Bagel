@@ -1,6 +1,7 @@
 /**
  * Adds event listener to spesifided keys, tracks mouse, creates object tracking key press.
  *
+ * @class EB_Input
  * @param {Array} keys - Array of keys to track (e.g. ["ArrowLeft", "ArrowRight"])
  * @param {Boolean} mouse - Track mouse position and click
  */

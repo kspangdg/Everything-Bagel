@@ -12,6 +12,9 @@ canvas {
     display: block;
     background-color: #000000;
 }
+canvas:hover {
+    cursor: none;
+}
 
 #menu {
     margin-left: auto;

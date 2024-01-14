@@ -1,6 +1,7 @@
 /**
  * Configs game menu.
  *
+ * @class EB_Menu
  * @param {int} width - Width of the menu
  * @param {int} height - Height of the menu
  * @param {string} image - Background image src

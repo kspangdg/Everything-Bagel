@@ -1,3 +1,10 @@
+/**
+ * Game clock.
+ *
+ * @class EB_Clock
+ * @param {int} fps - Frames per second
+ */
+
 class EB_Clock {
     constructor(fps) {
         this.fps = fps
