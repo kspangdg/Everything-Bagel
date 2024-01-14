@@ -10,13 +10,11 @@ function update() {
     enemy.update();
     player.update();
     
-
     // Player
     if (player.health > 0) {
         if (!input.keys.ArrowLeft.pressed && !input.keys.ArrowRight.pressed && !player.jump && !player.fall && !player.attack) {
-            player.switchSprite('idle' + (player.flip ? '_left' : '_right'));
+            player.switchSprite('idle_right');
         }
-    
         // Run
         if (input.keys.ArrowLeft.pressed && !player.attack && !player.dead && !enemy.dead) {
             if (player.collisionBox.left >= 350) {
@@ -32,9 +30,8 @@ function update() {
                     enemy.position.x += 8;
                 }
             }
-            // flip
             player.flip = true;
-            player.switchSprite('run_left');
+            player.switchSprite('run_right');
         } else if (input.keys.ArrowRight.pressed && !player.attack && !player.dead && !enemy.dead) {
             if (player.collisionBox.right <= game.canvas.width - 350) {
                 if (player.velocity.x <= 8) {
@@ -49,13 +46,11 @@ function update() {
                     enemy.position.x -= 8;
                 }
             }
-            // flip
             player.flip = false;
             player.switchSprite('run_right');
         } else {
             player.velocity.x = 0;
         }
-    
         // Jump
         if (input.keys.ArrowUp.pressed && !player.jump && !player.fall && !player.attack && !player.dead && !enemy.dead) {
             player.jump = true;
@@ -72,18 +67,17 @@ function update() {
         if (player.jump) {
             player.time++;
             player.velocity.y -= 5 + (player.time / 5);
-            player.switchSprite('jump' + (player.flip ? '_left' : '_right'));
+            player.switchSprite('jump_right');
             jump.play(true);
         } else if (player.fall) {
             player.time++;
             player.velocity.y += 5 - (player.time / 5);
-            player.switchSprite('fall' + (player.flip ? '_left' : '_right'));
+            player.switchSprite('fall_right');
             jump.pause(true);
         } else {
             player.velocity.y = 0;
             player.position.y = 295;
         }
-    
         // Attack
         if (input.keys.x.pressed && !player.jump && !player.fall && !player.dead && !enemy.dead && !player.attack) {
             player.attack = true;
@@ -92,7 +86,7 @@ function update() {
             clock.timer_start('player_attack_sound', 1);
         }
         if (player.attack) {
-            player.switchSprite('attack' + (player.flip ? '_left' : '_right'));
+            player.switchSprite('attack_right');
             if (clock.timer_end('player_attack_sound')) {
                 attack.play();
                 player.hitBox.active = true;
@@ -113,7 +107,7 @@ function update() {
             }
         }
     } else {
-        player.switchSprite('dead' + (player.flip ? '_left' : '_right'));
+        player.switchSprite('dead_right');
         player.velocity.x = 0;
         if (!player.dead) {
             player.dead = true;
@@ -127,7 +121,6 @@ function update() {
     }
 
     // Enemy
-
     // Run
     if (clock.seconds > 2 && enemy.health > 0 && !player.dead) {
         if (physics.collision(player, enemy) == false) {
@@ -136,7 +129,7 @@ function update() {
                     enemy.velocity.x -= 0.5;
                 }
                 enemy.flip = true;
-                enemy.switchSprite('run_left');
+                enemy.switchSprite('run_right');
             } else if (player.position.x > enemy.position.x) {
                 if (enemy.velocity.x <= 6) {
                     enemy.velocity.x += 0.5;
@@ -149,27 +142,24 @@ function update() {
         } else {
             enemy.velocity.x = 0;
             if (player.jump || player.fall) {
-                enemy.switchSprite('idle' + (enemy.flip ? '_left' : '_right'))
+                enemy.switchSprite('idle_right');
             } else {
-                enemy.switchSprite('attack' + (enemy.flip ? '_left' : '_right'));
-                    if (player.health > 0 && !player.hit) {
-                        player.health -= 10;
-                        player.hit = true;
-                        eattack.play();
-                        clock.timer_start('enemy_attack',5);
-                    }
+                enemy.switchSprite('attack_right');
+                if (player.health > 0 && !player.hit) {
+                    player.health -= 10;
+                    player.hit = true;
+                    eattack.play();
+                    clock.timer_start('enemy_attack',5);
+                }
             }
         }
     }
-
     if (player.hit && clock.timer_end('enemy_attack')) {
         player.hit = false;
         eattack.pause(true);
     }
-
-
     if (enemy.health <= 0) {
-        enemy.switchSprite('dead' + (enemy.flip ? '_left' : '_right'));
+        enemy.switchSprite('dead_right');
         enemy.velocity.x = 0;
         if (!enemy.dead) {
             enemy.dead = true;

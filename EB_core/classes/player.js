@@ -1,8 +1,7 @@
 class EB_Player extends EB_Sprite {
     constructor({
       position,
-      width,
-      height,
+      size = {w: 0, h: 0},
       velocity = {x: 0, y: 0},
       imageSrc,
       framesMax = 1,
@@ -22,8 +21,7 @@ class EB_Player extends EB_Sprite {
     }) {
       super({
         position,
-        width,
-        height,
+        size,
         imageSrc,
         framesMax,
         collisionBox
@@ -31,8 +29,7 @@ class EB_Player extends EB_Sprite {
   
       this.velocity = velocity
       this.hitBox = hitBox
-      this.width = width
-      this.height = height
+      this.size = size
       this.health = 100
       this.framesCurrent = 0
       this.framesElapsed = 0
@@ -109,31 +106,10 @@ class EB_Player extends EB_Sprite {
             this.framesCurrent = 0
           }
           break
-        case 'idle_left':
-          if (this.image !== this.sprites.idle_left.image) {
-            this.image = this.sprites.idle_left.image
-            this.framesMax = this.sprites.idle_left.framesMax
-            this.framesCurrent = 0
-          }
-          break
-        case 'run_left':
-          if (this.image !== this.sprites.run_left.image) {
-            this.image = this.sprites.run_left.image
-            this.framesMax = this.sprites.run_left.framesMax
-            this.framesCurrent = 0
-          }
-          break
         case 'run_right':
             if (this.image !== this.sprites.run_right.image) {
                 this.image = this.sprites.run_right.image
                 this.framesMax = this.sprites.run_right.framesMax
-                this.framesCurrent = 0
-            }
-            break
-        case 'jump_left':
-            if (this.image !== this.sprites.jump_left.image) {
-                this.image = this.sprites.jump_left.image
-                this.framesMax = this.sprites.jump_left.framesMax
                 this.framesCurrent = 0
             }
             break
@@ -151,31 +127,10 @@ class EB_Player extends EB_Sprite {
                 this.framesCurrent = 0
             }
             break
-        case 'fall_right':
-            if (this.image !== this.sprites.fall_right.image) {
-                this.image = this.sprites.fall_right.image
-                this.framesMax = this.sprites.fall_right.framesMax
-                this.framesCurrent = 0
-            }
-            break
-        case 'attack_left':
-            if (this.image !== this.sprites.attack_left.image) {
-                this.image = this.sprites.attack_left.image
-                this.framesMax = this.sprites.attack_left.framesMax
-                this.framesCurrent = 0
-            }
-            break
         case 'attack_right':
             if (this.image !== this.sprites.attack_right.image) {
                 this.image = this.sprites.attack_right.image
                 this.framesMax = this.sprites.attack_right.framesMax
-                this.framesCurrent = 0
-            }
-            break
-        case 'dead_left':
-            if (this.image !== this.sprites.dead_left.image) {
-                this.image = this.sprites.dead_left.image
-                this.framesMax = this.sprites.dead_left.framesMax
                 this.framesCurrent = 0
             }
             break

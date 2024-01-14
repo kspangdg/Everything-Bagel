@@ -1,20 +1,12 @@
-// Config Main Menu
-const menu = new EB_Menu(1024, 576, "public/assets/images/menu_background.png");
-// Config Canvas
-const game = new EB_Config(document.createElement("canvas"), 1024, 576);
-// Start clock
-const clock = new EB_Clock(20);
-
-// Init physics
-const physics = new EB_Physics();
-
-// Music
-const music = new EB_Audio('public/assets/audio/EB_soundtrack.mp3', 0.9, true);
-
-// Sounds FX
-const attack = new EB_Audio('public/assets/audio/attack.mp3' , 0.4, false);
-const eattack = new EB_Audio('public/assets/audio/eattack.mp3', 0.9, false);
-const jump = new EB_Audio('public/assets/audio/jump.mp3', 0.4, false);
+const menu = new EB_Menu(1024, 576, "public/assets/images/menu_background.png"); // Config Main Menu
+const game = new EB_Config(document.createElement("canvas"), 1024, 576); // Config Canvas
+const clock = new EB_Clock(20); // Start clock
+const physics = new EB_Physics(); // Init physics
+const input = new EB_Input([ "ArrowLeft", "ArrowRight", "ArrowUp", "x"], false); // Init input
+const music = new EB_Audio('public/assets/audio/EB_soundtrack.mp3', 0.9, true); // Music
+const attack = new EB_Audio('public/assets/audio/attack.mp3' , 0.4, false); // Attack sound
+const eattack = new EB_Audio('public/assets/audio/eattack.mp3', 0.9, false); // Enemy attack sound
+const jump = new EB_Audio('public/assets/audio/jump.mp3', 0.4, false); // Jump sound
 
 const background = new EB_Background({
 	position: {
@@ -58,16 +50,9 @@ const victory = new EB_Background({
 });
 
 const player = new EB_Player({
-	position: {
-		x: 350,
-		y: 295
-	},
-	width: 50,
-	height: 150,
-	velocity: {
-		x: 0,
-		y: 0
-	},
+	position: { x: 350, y: 295},
+	size: {w: 50, h: 150 },
+	velocity: { x: 0, y: 0 },
 	imageSrc: 'public/assets/images/idle_right.png',
 	framesMax: 8,
 	collisionBox: {
@@ -86,44 +71,20 @@ const player = new EB_Player({
 			imageSrc: 'public/assets/images/idle_right.png',
 			framesMax: 8
 		},
-		idle_left: {
-			imageSrc: 'public/assets/images/idle_left.png',
-			framesMax: 8
-		},
-		run_left: {
-			imageSrc: 'public/assets/images/run_left.png',
-			framesMax: 8
-		},
 		run_right: {
 			imageSrc: 'public/assets/images/run_right.png',
 			framesMax: 8
 		},
-		jump_left: {
-			imageSrc: 'public/assets/images/jump_left.png',
-			framesMax: 2
-		},
 		jump_right: {
 			imageSrc: 'public/assets/images/jump_right.png',
-			framesMax: 2
-		},
-		fall_left: {
-			imageSrc: 'public/assets/images/fall_left.png',
 			framesMax: 2
 		},
 		fall_right: {
 			imageSrc: 'public/assets/images/fall_right.png',
 			framesMax: 2
 		},
-		attack_left: {
-			imageSrc: 'public/assets/images/attack_left.png',
-			framesMax: 6
-		},
 		attack_right: {
 			imageSrc: 'public/assets/images/attack_right.png',
-			framesMax: 6
-		},
-		dead_left: {
-			imageSrc: 'public/assets/images/dead_left.png',
 			framesMax: 6
 		},
 		dead_right: {
@@ -134,16 +95,9 @@ const player = new EB_Player({
 })
 
 const enemy = new EB_Player({
-	position: {
-		x: game.width + 300,
-		y: 300
-	},
-	width: 50,
-	height: 150,
-	velocity: {
-		x: 0,
-		y: 0
-	},
+	position: { x: game.width + 300, y: 300 },
+	size: {w: 50, h: 150 },
+	velocity: { x: 0, y: 0 },
 	imageSrc: 'public/assets/images/eidle_right.png',
 	framesMax: 8,
 	collisionBox: {
@@ -157,44 +111,20 @@ const enemy = new EB_Player({
 			imageSrc: 'public/assets/images/eidle_right.png',
 			framesMax: 8
 		},
-		idle_left: {
-			imageSrc: 'public/assets/images/eidle_left.png',
-			framesMax: 8
-		},
-		run_left: {
-			imageSrc: 'public/assets/images/erun_left.png',
-			framesMax: 8
-		},
 		run_right: {
 			imageSrc: 'public/assets/images/erun_right.png',
 			framesMax: 8
 		},
-		jump_left: {
-			imageSrc: 'public/assets/images/jump_left.png',
-			framesMax: 2
-		},
 		jump_right: {
 			imageSrc: 'public/assets/images/jump_right.png',
-			framesMax: 2
-		},
-		fall_left: {
-			imageSrc: 'public/assets/images/fall_left.png',
 			framesMax: 2
 		},
 		fall_right: {
 			imageSrc: 'public/assets/images/fall_right.png',
 			framesMax: 2
 		},
-		attack_left: {
-			imageSrc: 'public/assets/images/eattack_left.png',
-			framesMax: 6
-		},
 		attack_right: {
 			imageSrc: 'public/assets/images/eattack_right.png',
-			framesMax: 6
-		},
-		dead_left: {
-			imageSrc: 'public/assets/images/edead_left.png',
 			framesMax: 6
 		},
 		dead_right: {
@@ -203,8 +133,6 @@ const enemy = new EB_Player({
 		}
 	}
 })
-
-const input = new EB_Input([ "ArrowLeft", "ArrowRight", "ArrowUp", "x"], false);
 
 // Main Menu
 menu.init();
@@ -221,7 +149,6 @@ function mute() {
 		audio_img.src = 'public/assets/images/audio_off.png';
 	}
 }
-
 
 // Start the game
 function init() {
