@@ -8,15 +8,17 @@
  */
 
 class EB_Config {
-    constructor(canvas, width, height) {
+    constructor(canvas, width, height, meta = {}) {
         this.canvas = canvas;
         this.width = width;
         this.height = height;
         this.context = this.canvas.getContext("2d");
         this.level = 1,
+        this.scene = 1,
         this.mode = 1, // 1 = easy, 2 = medium, 3 = hard
-        this.debug;
+        this.debug = false;
         this.mute = false;
+        this.meta = meta;
     }
 
     start() {

@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Everything Bagel</title>
+	<title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="icon" type="EB_core/assets/img/bagel.png" href="EB_core/assets/img/bagel.png">
     <link rel="stylesheet" href="EB_core/assets/css/styles.css">
 </head>
 
@@ -11,15 +10,15 @@
 
     
     <div id="menu">
-        <button id="play_btn" onclick="init()"><img src="public/assets/images/play_button.png" alt="play button"></button>
-        <button id="audio_btn" onclick="mute()"><img src="public/assets/images/audio_on.png" alt="audio button"></button>
+        <button id="play_btn" onclick="init()">Play</button>
+        <button id="audio_btn" onclick="mute()">Audio</button>
     </div>
 
     <div id="details" class="flex-grid">
         <div class="col">
             <!-- debug -->
-            <!-- <button onclick="debug()">Debug</button>
-            <script>function debug() { game.debug = true; }</script> -->
+            <button onclick="debug()">Debug</button>
+            <script>function debug() { game.debug = true; }</script>
             <p style="margin-top: 0px;">- Art/Animation by: Keith Spang</p>
             <p>- Music/Sound FX by: Keith Spang & Jonathan Spang</p>
             <p>- Development by: Keith Spang</p>
@@ -44,6 +43,7 @@
     <script src="EB_core/classes/player.js"></script>
     <script src="EB_core/classes/audio.js"></script>
     <script src="EB_core/classes/input.js"></script>
+    <script src="EB_core/classes/text.js"></script>
 
 
     <!-- Public Scripts -->

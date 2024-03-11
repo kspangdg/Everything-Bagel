@@ -20,7 +20,7 @@ class EB_Sprite {
       position = {x: 0, y: 0},
       angle = 0,
       size = {w: 0, h: 0},
-      image_src,
+      image_src = '',
       frames_max = 1,
       collision_box = {
         active: false,
@@ -32,51 +32,66 @@ class EB_Sprite {
       this.position = position;
       this.angle = angle;
       this.size = size;
-      this.image = new Image();
-      this.image_loaded = false;
-      this.image.onload = () => {
-        this.image_loaded = true;
+      this.image_src = image_src;
+      if (this.image_src != '') {
+        this.image = new Image();
+        this.image_loaded = false;
+        this.image.onload = () => {
+          this.image_loaded = true;
+        }
+        this.image.src = this.image_src;
+        this.frames_max = frames_max;
+        this.frames_current = 0;
+        this.frames_elapsed = 0;
+        this.frames_hold = 5;
+        this.flip = false;
       }
-      this.image.src = image_src;
-      this.frames_max = frames_max;
-      this.frames_current = 0;
-      this.frames_elapsed = 0;
-      this.frames_hold = 5;
       this.collision_box = collision_box;
-      this.flip = false;
     }
   
     draw() {
-      // if (this.angle) {
-      //   game.context.save();
-      //   game.context.translate((this.image.width / this.frames_max) / 2, this.image.height / 2);
-      //   game.context.rotate(this.angle);
-      //   x = (this.position.x * -1) - ((this.image.width / this.frames_max) / 2);
-      //   y = (this.position.y * -1) - (this.image.height / 2);
-      // }
-      if (this.flip) {
-        game.context.save();
-        game.context.translate(this.position.x + (this.image.width / this.frames_max), this.position.y);
-        game.context.scale(-1, 1);
-      }
-      game.context.drawImage(
-        this.image,
-        this.frames_current * (this.image.width / this.frames_max),
-        0,
-        this.image.width / this.frames_max,
-        this.image.height,
-        (this.flip ? 0 : this.position.x),
-        (this.flip ? 0 : this.position.y),
-        (this.image.width / this.frames_max),
-        this.image.height
-      )
-      if (this.flip) game.context.restore()
-      if (game.debug) debug();
-      if (this.collision_box.active) {
-        this.update_collision_box();
+      if (this.image_src != '') {
+        // if (this.angle) {
+        //   game.context.save();
+        //   game.context.translate((this.image.width / this.frames_max) / 2, this.image.height / 2);
+        //   game.context.rotate(this.angle);
+        //   x = (this.position.x * -1) - ((this.image.width / this.frames_max) / 2);
+        //   y = (this.position.y * -1) - (this.image.height / 2);
+        // }
+        if (this.flip) {
+          game.context.save();
+          game.context.translate(this.position.x + (this.image.width / this.frames_max), this.position.y);
+          game.context.scale(-1, 1);
+        }
+        game.context.drawImage(
+          this.image,
+          this.frames_current * (this.image.width / this.frames_max),
+          0,
+          this.image.width / this.frames_max,
+          this.image.height,
+          (this.flip ? 0 : this.position.x),
+          (this.flip ? 0 : this.position.y),
+          (this.image.width / this.frames_max),
+          this.image.height
+        )
+        if (this.flip) game.context.restore()
+        if (game.debug) debug();
+        if (this.collision_box.active) {
+          this.update_collision_box();
+          game.context.beginPath();
+          game.context.rect(this.collision_box.x, this.collision_box.y, this.collision_box.width, this.collision_box.height);
+          if (game.debug) game.context.stroke();
+        }
+      } else {
         game.context.beginPath();
-        game.context.rect(this.collision_box.x, this.collision_box.y, this.collision_box.width, this.collision_box.height);
+        game.context.rect(this.position.x, this.position.y, this.size.w, this.size.h);
         if (game.debug) game.context.stroke();
+        if (this.collision_box.active) {
+          this.update_collision_box();
+          game.context.beginPath();
+          game.context.rect(this.collision_box.x, this.collision_box.y, this.collision_box.width, this.collision_box.height);
+          if (game.debug) game.context.stroke();
+        }        
       }
     }
   
@@ -98,7 +113,7 @@ class EB_Sprite {
         this.position.y,
         (this.image.width / this.frames_max), 
         this.image.height
-      );
+        );
       game.context.stroke();
     }
 
@@ -116,9 +131,7 @@ class EB_Sprite {
     }
   
     update() {
-      if (this.image_loaded) {
-        this.draw()
-        this.animate()
-      }
+      this.draw()
+      if (this.image_src != '') this.animate()
     }
   }
