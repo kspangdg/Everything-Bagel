@@ -11,7 +11,6 @@ class EB_Clock {
         this.seconds = 0;
         this.i = 0
         this.frames = 0;
-        this.timer_interval = 0;
         this.timer_log = [];
     }
     start() {
@@ -26,12 +25,11 @@ class EB_Clock {
         this.i++
         if (this.i % 5 === 0) {
             this.timer_log.forEach((x, i) => {
-                if (this.timer_interval >= x.interval + x.delay) {
+                if (this.frames - x.frames >= x.delay) {
                     this.timer_log.splice(i, 1);
                 }
             });
             this.frames++
-            this.timer_interval++
         }
     }
     timer_start(slug, delay) {
@@ -39,7 +37,7 @@ class EB_Clock {
             this.timer_log.push({
                 slug: slug,
                 delay: delay,
-                interval: this.timer_interval
+                frames: this.frames
             });
         }
     }

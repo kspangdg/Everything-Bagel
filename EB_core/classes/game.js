@@ -7,7 +7,7 @@
  * @param {int} height - Height of the canvas
  */
 
-class EB_Config {
+class EB_Game {
     constructor(canvas, width, height, meta = {}) {
         this.canvas = canvas;
         this.width = width;
@@ -29,5 +29,13 @@ class EB_Config {
     }
     clear() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+    scene_change(scene) {
+        if (this.track_mouse) input.mouse.clicked = false;
+        this.scene = scene;
+    }
+    level_change(level) {
+        if (this.track_mouse) input.mouse.clicked = false;
+        this.level = level;
     }
 }

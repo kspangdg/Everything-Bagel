@@ -49,12 +49,15 @@ class EB_Input {
                 this.mouse.x = event.clientX - rect.left;
                 this.mouse.y = event.clientY - rect.top;
             })
-            game.canvas.addEventListener('mousedown', (event) => {
+            // game.canvas.addEventListener('mousedown', (event) => {
+            //     this.mouse.clicked = true;
+            // })
+            game.canvas.addEventListener('mouseup', (event) => {
                 this.mouse.clicked = true;
             })
-            game.canvas.addEventListener('mouseup', (event) => {
-                this.mouse.clicked = false;
-            })
         }
+    }
+    update() {   
+        this.mouse.clicked = false;
     }
 }

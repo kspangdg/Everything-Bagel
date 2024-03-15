@@ -28,15 +28,16 @@ canvas:hover {
 
 #play_btn {
     position: absolute;
-    top: 65%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 68%;
+    left: 7%;
+    color: white;
 }
 
 #audio_btn {
     position: absolute;
     top: 5%;
     right: 3%;
+    color: white;
 }
 
 .flex-grid {
