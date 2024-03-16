@@ -106,6 +106,7 @@ function update() {
                         l0_s1_cz2.image.src = 'public/assets/images/level_' + levels[levels_index].id + '/elevator_level_' + levels[levels_index].id + '.png';
                         elevator_button_go.image.src = 'public/assets/images/elevator_btn_true.png';
                         elevator_message.text = 'true';
+                        button_sound_true.play(true);
                         game.meta.elevator.is_location = true;
                     }
                     levels_index++;
@@ -113,6 +114,7 @@ function update() {
                 if (!game.meta.elevator.is_location) { // if location is not found
                     elevator_button_go.image.src = 'public/assets/images/elevator_btn_false.png';
                     elevator_message.text = 'false';
+                    button_sound_false.play(true);
                 }
                 game.meta.elevator.is_running = true;
             }

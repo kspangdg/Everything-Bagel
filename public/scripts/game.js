@@ -9,8 +9,10 @@
 	});
 	const clock = new EB_Clock(20); // Start clock
 	const input = new EB_Input([], true); // Init input
-	const music = new EB_Audio('public/assets/audio/l1_bg.mp3', 0.5, true); // Music
+	const music = new EB_Audio('public/assets/audio/l1_bg.mp3', 0.7, true); // Music
 	const button_sound = new EB_Audio('public/assets/audio/elevator_btn.mp3', 0.8, false); // Button sound
+	const button_sound_true = new EB_Audio('public/assets/audio/elevator_btn_true.mp3', 0.2, false); // Button sound
+	const button_sound_false = new EB_Audio('public/assets/audio/elevator_btn_false.mp3', 0.1, false); // Button sound
 	const physics = new EB_Physics(); // Init physics
 	const cursor = new EB_Sprite({position: {x: 0, y: 0}, size: {w: 5, h: 5}, image_src: 'public/assets/images/cursor.png', collision_box: { active: true, offset: {x: 0, y: 0}, width: 5, height: 5}});
 	const flashlight = new EB_Sprite({position: {x: -512, y: -288}, size: {w: 2048, h: 1152}, image_src: 'public/assets/images/flashlight_off.png',});
