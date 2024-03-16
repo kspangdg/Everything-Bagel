@@ -23,7 +23,8 @@ class EB_Audio {
 
     play(reset = false, start = 0) {
         if (!game.mute) {
-            if (reset && !this.playing) {
+            if (reset) {
+                this.sound.pause();
                 this.sound.currentTime = start;
             }
             this.sound.play();  

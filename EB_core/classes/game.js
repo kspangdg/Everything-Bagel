@@ -13,7 +13,7 @@ class EB_Game {
         this.width = width;
         this.height = height;
         this.context = this.canvas.getContext("2d");
-        this.level = 1,
+        this.level = 0,
         this.scene = 1,
         this.mode = 1, // 1 = easy, 2 = medium, 3 = hard
         this.debug = false;
