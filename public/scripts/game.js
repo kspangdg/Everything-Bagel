@@ -3,19 +3,22 @@
 	const game = new EB_Game(document.createElement("canvas"), 1024, 576, {
 		sanity: 1, 
 		dark: false, 
-		flashlight: false, 
+		flashlight: false,
+		has_flashlight: false,
 		noise: false,
 		elevator: {x: 0, y: 0, z: 0, is_running: false, is_location: false, level: 0},
 	});
 	const clock = new EB_Clock(20); // Start clock
 	const input = new EB_Input([], true); // Init input
-	const music = new EB_Audio('public/assets/audio/l1_bg.mp3', 0.7, true); // Music
+	const elevator_music = new EB_Audio('public/assets/audio/elevator_bg.mp3', 0.7, true); // Music
 	const button_sound = new EB_Audio('public/assets/audio/elevator_btn.mp3', 0.8, false); // Button sound
 	const button_sound_true = new EB_Audio('public/assets/audio/elevator_btn_true.mp3', 0.2, false); // Button sound
 	const button_sound_false = new EB_Audio('public/assets/audio/elevator_btn_false.mp3', 0.1, false); // Button sound
+	const flashlight_sound = new EB_Audio('public/assets/audio/elevator_btn.mp3', 0.8, false); // Flashlight sound
 	const physics = new EB_Physics(); // Init physics
 	const cursor = new EB_Sprite({position: {x: 0, y: 0}, size: {w: 5, h: 5}, image_src: 'public/assets/images/cursor.png', collision_box: { active: true, offset: {x: 0, y: 0}, width: 5, height: 5}});
 	const flashlight = new EB_Sprite({position: {x: -512, y: -288}, size: {w: 2048, h: 1152}, image_src: 'public/assets/images/flashlight_off.png',});
+	const flashlight_icon = new EB_Sprite({position: {x: 20, y: 511}, size: {w: 45, h: 45}, image_src: 'public/assets/images/flashlight_icon.png', collision_box: { active: true, offset: {x: 0, y: 0}, width: 45, height: 45}});
 	const noise = new EB_Sprite({position: {x: 0, y: 0}, size: {w: 1024, h: 576}, image_src: 'public/assets/images/noise.png', frames_max: 4,});
 	const background = new EB_Background({position: {x: 0,y: 0}, image_src: 'public/assets/images/level_0.png', loop: false, parallax: 1});
 // <---------------------------------- Base config
@@ -24,7 +27,7 @@
 	// Click zones
 	const l0_s1_cz1 = new EB_Sprite({ position: {x: 668, y: 225}, size: {w:80, h: 90}, collision_box: { active: true, offset: {x: 0, y: 0}, width: 80, height: 90} });
 	const l0_s1_cz2 = new EB_Sprite({ position: {x: 391, y: 147}, size: {w:234, h: 335}, image_src: 'public/assets/images/level_1/elevator_level_1.png', collision_box: { active: true, offset: {x: 0, y: 0}, width: 234, height: 335} });
-	const l0_s2_cz1 = new EB_Sprite({ position: {x: 0, y: 0}, size: {w:250, h: 576}, collision_box: { active: true, offset: {x: 0, y: 0}, width: 250, height: 576} });
+	const l0_s2_cz1 = new EB_Sprite({ position: {x: 0, y: 0}, size: {w:250, h: 500}, collision_box: { active: true, offset: {x: 0, y: 0}, width: 250, height: 500} });
 	// Elevator controls
 	let elevator_buttons_x = [];
 	let elevator_buttons_x_position = [{x: 446, y: 293}, {x: 498, y: 293}, {x: 552, y: 293}, {x: 604, y: 293}];
@@ -52,7 +55,7 @@
 		let level_id = levels[levels_index].id;
 		let scenes = levels[levels_index].scenes;
 		let scenes_index = 0, scenes_length = scenes.length;
-		levels_data[level_id] = {};
+		levels_data[level_id] = {music: new EB_Audio(levels[levels_index].music.path, levels[levels_index].music.volume, levels[levels_index].music.loop)};
 		while (scenes_index < scenes_length) { // loop scenes
 			let scene_id = scenes[scenes_index].id;
 			let click_zones = scenes[scenes_index].click_zones;
@@ -66,6 +69,15 @@
 				let click_zone_actions = [];
 				let actions_index = 0, actions_length = Object.keys(actions).length;
 				while (actions_index < actions_length) { // loop actions
+					if (Object.keys(actions)[actions_index] == 'level_change') {
+						let action_function = function(level_id, scene_id, click_zone_index, actions_index) {
+							levels_data[game.level][game.scene].click_zones[click_zone_index].sprite.update();
+							if (physics.collision(levels_data[game.level][game.scene].click_zones[click_zone_index].sprite, cursor).any && input.mouse.clicked) {
+								game.level_change(levels_data[level_id][scene_id]['click_zones'][click_zone_index].actions[actions_index].data);
+							}
+						}
+						click_zone_actions.push({action:action_function, data: click_zones[click_zone_index].actions.level_change});
+					}
 					if (Object.keys(actions)[actions_index] == 'scene_change') {
 						let action_function = function(level_id, scene_id, click_zone_index, actions_index) {
 							levels_data[game.level][game.scene].click_zones[click_zone_index].sprite.update();
@@ -95,6 +107,7 @@
 		}
 		levels_index++
 	}
+	console.log(levels_data);
 // <---------------------------------- level loop
 
 // Main Menu
@@ -120,5 +133,5 @@ function init() {
 	menu.hide();
 	clock.start();
 	game.start();
-	music.play();
+	elevator_music.play();
 }

@@ -13,7 +13,7 @@ canvas {
     background-color: #000000;
 }
 canvas:hover {
-    cursor: none;
+    cursor: none !important;
 }
 
 #menu {

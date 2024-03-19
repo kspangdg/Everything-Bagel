@@ -35,7 +35,18 @@ class EB_Game {
         this.scene = scene;
     }
     level_change(level) {
+        // if level 0 pause all music and play default music
+        if (this.level == 0) {
+            elevator_music.pause(true, 0);
+        } else {
+            levels_data[this.level].music.pause(true, 0);
+        }
         if (this.track_mouse) input.mouse.clicked = false;
         this.level = level;
+        if (this.level > 0) {
+            levels_data[this.level].music.play(true, 0);
+        } else {
+            elevator_music.play(true, 0);
+        }
     }
 }

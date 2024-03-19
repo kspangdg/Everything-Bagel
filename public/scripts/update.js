@@ -8,16 +8,10 @@ function update() {
     // Update cursor position
     cursor.position.x = input.mouse.x;
     cursor.position.y = input.mouse.y;
-    // Update flashlight position
-    if (game.meta.dark) {
-        flashlight.position.x = input.mouse.x - 1024;
-        flashlight.position.y = input.mouse.y - 576;
-        if (game.meta.flashlight) {
-            flashlight.image.src = 'public/assets/images/flashlight.png';
-        } else {
-            flashlight.image.src = 'public/assets/images/flashlight_off.png';
-        }
-    }
+
+    game.meta.has_flashlight = true;
+
+    //game.level = 2;
 
     /*
     * LEVELS
@@ -26,6 +20,8 @@ function update() {
     let level_break = false;
      // level 0 ---------------------------------->
     if (game.level === 0 && !level_break) {
+        game.meta.dark = false;
+        game.meta.noise = false;
         if (game.scene === 1) { 
                 background.image.src = 'public/assets/images/level_0.png';
                 l0_s1_cz1.update();
@@ -103,7 +99,7 @@ function update() {
                     let code = levels[levels_index].code;
                     if (game.meta.elevator.x === code.x && game.meta.elevator.y === code.y && game.meta.elevator.z === code.z) { // if location is found
                         game.meta.elevator.level = levels[levels_index].id;
-                        l0_s1_cz2.image.src = 'public/assets/images/level_' + levels[levels_index].id + '/elevator_level_' + levels[levels_index].id + '.png';
+                        l0_s1_cz2.image.src = 'public/assets/images/' + levels[levels_index].slug + '/elevator_view_' + levels[levels_index].slug + '.png';
                         elevator_button_go.image.src = 'public/assets/images/elevator_btn_true.png';
                         elevator_message.text = 'true';
                         button_sound_true.play(true);
@@ -137,6 +133,8 @@ function update() {
     let levels_index = 0, levels_length = Object.keys(levels_data).length;
     while (levels_index < levels_length) {
         if (game.level === levels_index + 1 && !level_break) {
+            game.meta.dark = levels[levels_index].darkness;
+            game.meta.noise = levels[levels_index].noises;
             let scene_break = false;
             let scenes = levels_data[game.level];
             let scenes_index = 0, scenes_length = Object.keys(scenes).length;
@@ -162,8 +160,30 @@ function update() {
         levels_index++;
     } // <---------------------------------- level loop
 
-    noise.update();
-    if (game.meta.dark) flashlight.update();
+    if (game.meta.noise) noise.update();
+    // Update flashlight position
+    if (game.meta.dark) {
+        flashlight.position.x = input.mouse.x - 1024;
+        flashlight.position.y = input.mouse.y - 576;
+        if (game.meta.flashlight) {
+            flashlight.image.src = 'public/assets/images/flashlight.png';
+        } else {
+            flashlight.image.src = 'public/assets/images/flashlight_off.png';
+        }
+        flashlight.update();
+    }
+    //toggle flashlight if flashlight icon is clicked and user has flashlight
+    if (game.meta.has_flashlight) flashlight_icon.update();
+    if (physics.collision(flashlight_icon, cursor).any && input.mouse.clicked) {
+        flashlight_sound.play(true);
+        if (game.meta.flashlight) {
+            game.meta.flashlight = false;
+            flashlight_icon.image.src = 'public/assets/images/flashlight_icon.png';
+        } else {
+            game.meta.flashlight = true;
+            flashlight_icon.image.src = 'public/assets/images/flashlight_icon_on.png';
+        }
+    }
     cursor.update();
     input.update();
 }
