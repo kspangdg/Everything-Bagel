@@ -19,7 +19,7 @@ function update() {
 
     let level_break = false;
      // level 0 ---------------------------------->
-    if (game.level === 0 && !level_break) {
+    if (game.level === 0 && !level_break && !game.meta.notes_open) {
         game.meta.dark = false;
         game.meta.noise = false;
         if (game.scene === 1) { 
@@ -132,7 +132,7 @@ function update() {
     // level loop ---------------------------------->
     let levels_index = 0, levels_length = Object.keys(levels_data).length;
     while (levels_index < levels_length) {
-        if (game.level === levels_index + 1 && !level_break) {
+        if (game.level === levels_index + 1 && !level_break && !game.meta.notes_open) {
             game.meta.dark = levels[levels_index].darkness;
             game.meta.noise = levels[levels_index].noises;
             let scene_break = false;
@@ -146,7 +146,7 @@ function update() {
                         let actions = levels_data[game.level][game.scene].click_zones[click_zone_index].actions;
                         let actions_index = 0, actions_length = actions.length;
                         while (actions_index < actions_length) {
-                            actions[actions_index].action(game.level, game.scene, click_zone_index, actions_index);
+                            if (actions[actions_index].action !== undefined) actions[actions_index].action(levels_data[game.level].slug, game.level, game.scene, click_zone_index, actions_index);
                             actions_index++;
                         }
                         click_zone_index++;
@@ -183,6 +183,21 @@ function update() {
             game.meta.flashlight = true;
             flashlight_icon.image.src = 'public/assets/images/flashlight_icon_on.png';
         }
+    }
+    //notes 
+    notes_icon.update();
+    if (physics.collision(notes_icon, cursor).any && input.mouse.clicked) {
+        notes_sound.play(true);
+        if (game.meta.notes_open) {
+            game.meta.notes_open = false;
+            notes_icon.image.src = 'public/assets/images/notes_icon.png';
+        } else {
+            game.meta.notes_open = true;
+            notes_icon.image.src = 'public/assets/images/notes_icon_open.png';
+        }
+    }
+    if (game.meta.notes_open) {
+        background.image.src = 'public/assets/images/notes_bg.png';
     }
     cursor.update();
     input.update();

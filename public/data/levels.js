@@ -39,13 +39,15 @@ const levels =[
                 background: "public/assets/images/the_tunnel/scene_1.png",
                 click_zones: [
                     {x:180, y:526, width:650, height:50, image_src:'', actions: {level_change: 0}},
+                    {x:620, y:240, width:40, height:170, image_src:'', actions: {scene_change: 2}}
                 ]
             },
             {
                 id: 2,
                 background: "public/assets/images/the_tunnel/scene_2.png",
                 click_zones: [
-                    {x:0, y:0, width:1, height:1, image_src:'', actions: {scene_change: 1}},
+                    {x:305, y:536, width:400, height:40, image_src:'', actions: {scene_change: 1}},
+                    {x:620, y:240, width:30, height:35, image_src:'public/assets/images/the_tunnel/note_1.png', actions: {add_note: 1}}
                 ]
             }
         ]
