@@ -9,6 +9,7 @@
 		elevator: {x: 0, y: 0, z: 0, is_running: false, is_location: false, level: 0},
 		notes: [],
 		notes_open: false,
+		notes_index: 1,
 	});
 	const clock = new EB_Clock(20); // Start clock
 	const input = new EB_Input([], true); // Init input
@@ -24,6 +25,10 @@
 	const flashlight_icon = new EB_Sprite({position: {x: 20, y: 511}, size: {w: 45, h: 45}, image_src: 'public/assets/images/flashlight_icon.png', collision_box: { active: true, offset: {x: 0, y: 0}, width: 45, height: 45}});
 	const notes_icon = new EB_Sprite({position: {x: 958, y: 511}, size: {w: 45, h: 45}, image_src: 'public/assets/images/notes_icon.png', collision_box: { active: true, offset: {x: 0, y: 0}, width: 45, height: 45}});
 	const noise = new EB_Sprite({position: {x: 0, y: 0}, size: {w: 1024, h: 576}, image_src: 'public/assets/images/noise.png', frames_max: 4,});
+	const note_plus = new EB_Sprite({position: {x: 730, y: 255}, size: {w: 45, h: 45}, image_src: 'public/assets/images/arrow_right.png', collision_box: { active: true, offset: {x: 0, y: 0}, width: 45, height: 45}});
+	const note_minus = new EB_Sprite({position: {x: 250, y: 255}, size: {w: 45, h: 45}, image_src: 'public/assets/images/arrow_left.png', collision_box: { active: true, offset: {x: 0, y: 0}, width: 45, height: 45}});
+	const note_conter = new EB_Text({position: {x: 512, y: 560}, size: 20, color: 'white', text: '0 / 0'});
+	const note_image = new EB_Sprite({position: {x: 315, y: 39}, size: {w: 500, h: 300}, image_src: 'public/assets/images/notes/note_the_tunnel_1.png'});
 	const background = new EB_Background({position: {x: 0,y: 0}, image_src: 'public/assets/images/level_0.png', loop: false, parallax: 1});
 // <---------------------------------- Base config
 
@@ -107,7 +112,8 @@
 						let action_function = function(level_slug, level_id, scene_id, click_zone_index, actions_index) {
 							levels_data[game.level][game.scene].click_zones[click_zone_index].sprite.update();
 							if (physics.collision(levels_data[game.level][game.scene].click_zones[click_zone_index].sprite, cursor).any && input.mouse.clicked) {
-								game.meta.notes.push({id: levels_data[level_id][scene_id]['click_zones'][click_zone_index].actions[actions_index].data, level_slug: level_slug});
+								notes_sound.play();
+								game.meta.notes.push(levels_data[level_id][scene_id]['click_zones'][click_zone_index].actions[actions_index].data);
 								levels_data[game.level][game.scene].click_zones[click_zone_index].sprite = null;
 								levels_data[level_id][scene_id]['click_zones'].splice(click_zone_index, 1);
 							}

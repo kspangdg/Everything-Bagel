@@ -160,9 +160,9 @@ function update() {
         levels_index++;
     } // <---------------------------------- level loop
 
-    if (game.meta.noise) noise.update();
+    if (game.meta.noise && !game.meta.notes_open) noise.update();
     // Update flashlight position
-    if (game.meta.dark) {
+    if (game.meta.dark && !game.meta.notes_open) {
         flashlight.position.x = input.mouse.x - 1024;
         flashlight.position.y = input.mouse.y - 576;
         if (game.meta.flashlight) {
@@ -198,6 +198,26 @@ function update() {
     }
     if (game.meta.notes_open) {
         background.image.src = 'public/assets/images/notes_bg.png';
+        note_plus.update();
+        note_minus.update();
+        note_conter.update();
+        note_conter.display = true;
+        if (physics.collision(note_plus, cursor).any && input.mouse.clicked && game.meta.notes_index < game.meta.notes.length) {
+            notes_sound.play(true);
+            console.log(game.meta.notes_index, game.meta.notes.length);
+            game.meta.notes_index++;
+        }
+        if (physics.collision(note_minus, cursor).any && input.mouse.clicked && game.meta.notes_index > 1) {
+            notes_sound.play(true);
+            console.log(game.meta.notes_index, game.meta.notes.length);
+            game.meta.notes_index--;
+        }
+        let counter = (game.meta.notes.length > 0) ? game.meta.notes_index : 0;
+        note_conter.text = counter + ' / ' + game.meta.notes.length;
+        if (game.meta.notes.length > 0) {
+            note_image.image.src = game.meta.notes[game.meta.notes_index - 1];
+            note_image.update();
+        }
     }
     cursor.update();
     input.update();
