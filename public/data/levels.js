@@ -47,7 +47,8 @@ const levels =[
                 background: "public/assets/images/the_tunnel/scene_2.png",
                 click_zones: [
                     {x:305, y:536, width:400, height:40, image_src:'', actions: {scene_change: 1}},
-                    {x:620, y:240, width:30, height:35, image_src:'public/assets/images/the_tunnel/note_1.png', actions: {add_note: 'public/assets/images/notes/note_the_tunnel_1.png'}}
+                    {x:620, y:240, width:30, height:35, image_src:'public/assets/images/the_tunnel/note_1.png', actions: {add_note: 'public/assets/images/notes/note_the_tunnel_1.png'}},
+                    {x:500, y:350, width:30, height:140, image_src:'public/assets/images/items/item_1_cz.png', actions: {add_item: 1}}
                 ]
             }
         ]

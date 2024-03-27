@@ -6,8 +6,6 @@ function update() {
     clock.update();
     background.update();
     // Update cursor position
-    cursor.position.x = input.mouse.x;
-    cursor.position.y = input.mouse.y;
 
     game.meta.has_flashlight = true;
 
@@ -19,7 +17,7 @@ function update() {
 
     let level_break = false;
      // level 0 ---------------------------------->
-    if (game.level === 0 && !level_break && !game.meta.notes_open) {
+    if (game.level === 0 && !level_break && !game.meta.notes_open && !game.meta.items_open) {
         game.meta.dark = false;
         game.meta.noise = false;
         if (game.scene === 1) { 
@@ -132,7 +130,7 @@ function update() {
     // level loop ---------------------------------->
     let levels_index = 0, levels_length = Object.keys(levels_data).length;
     while (levels_index < levels_length) {
-        if (game.level === levels_index + 1 && !level_break && !game.meta.notes_open) {
+        if (game.level === levels_index + 1 && !level_break && !game.meta.notes_open && !game.meta.items_open) {
             game.meta.dark = levels[levels_index].darkness;
             game.meta.noise = levels[levels_index].noises;
             let scene_break = false;
@@ -142,7 +140,7 @@ function update() {
                 if (game.scene == scenes_index + 1 && !scene_break) {
                     background.image.src = levels_data[game.level][game.scene].background;
                     let click_zone_index = 0, click_zone_length = levels_data[game.level][game.scene].click_zones.length;
-                    while (click_zone_index < click_zone_length) {
+                    while (click_zone_index < click_zone_length && levels_data[game.level][game.scene].click_zones[click_zone_index] !== undefined) {
                         let actions = levels_data[game.level][game.scene].click_zones[click_zone_index].actions;
                         let actions_index = 0, actions_length = actions.length;
                         while (actions_index < actions_length) {
@@ -158,11 +156,11 @@ function update() {
             level_break = true;
         }
         levels_index++;
-    } // <---------------------------------- level loop
+    } // <---------------------------------- level loop;
 
-    if (game.meta.noise && !game.meta.notes_open) noise.update();
+    if (game.meta.noise && !game.meta.notes_open && !game.meta.items_open) noise.update();
     // Update flashlight position
-    if (game.meta.dark && !game.meta.notes_open) {
+    if (game.meta.dark && !game.meta.notes_open && !game.meta.items_open) {
         flashlight.position.x = input.mouse.x - 1024;
         flashlight.position.y = input.mouse.y - 576;
         if (game.meta.flashlight) {
@@ -188,6 +186,7 @@ function update() {
     notes_icon.update();
     if (physics.collision(notes_icon, cursor).any && input.mouse.clicked) {
         notes_sound.play(true);
+        game.meta.items_open = false;
         if (game.meta.notes_open) {
             game.meta.notes_open = false;
             notes_icon.image.src = 'public/assets/images/notes_icon.png';
@@ -219,6 +218,53 @@ function update() {
             note_image.update();
         }
     }
+    //items
+    items_icon.update();
+    if (physics.collision(items_icon, cursor).any && input.mouse.clicked) {
+        items_sound.play(true);
+        game.meta.notes_open = false;
+        if (game.meta.items_open) {
+            game.meta.items_open = false;
+            items_icon.image.src = 'public/assets/images/items_icon.png';
+        } else {
+            game.meta.items_open = true;
+            items_icon.image.src = 'public/assets/images/items_icon_open.png';
+        }
+    }
+    if (input.mouse.clicked && game.meta.item_equipped > 0) {
+        game.meta.item_equipped = 0;
+    }
+    if (game.meta.items_open) {
+        background.image.src = 'public/assets/images/items_bg.png';
+        let items_index = 0, items_length = game.meta.items.length;
+        while (items_index < items_length) {
+            let id = game.meta.items[items_index];
+            let image = items[id].image;
+            items_sprite[items_index].image.src = image;
+            if (physics.collision(items_sprite[items_index], cursor).any && input.mouse.clicked) {
+                game.meta.item_equipped = id;
+                game.meta.items_open = false;
+                items_icon.image.src = 'public/assets/images/items_icon.png';
+                cursor_item.image.src = image;
+
+            }
+            items_index++;
+        }
+        let sluts_index = 0, sluts_length = items_position.length;
+        while (sluts_index < sluts_length) {
+            items_sprite[sluts_index].update();
+            sluts_index++;
+        }
+    }
+    // Cursor
+    cursor.position.x = input.mouse.x - 2;
+    cursor.position.y = input.mouse.y - 2;
+    if (game.meta.item_equipped > 0) {
+        cursor_item.update()
+        cursor_item.position.x = input.mouse.x + 5;
+        cursor_item.position.y = input.mouse.y + 5;
+    }
+
     cursor.update();
     input.update();
 }
